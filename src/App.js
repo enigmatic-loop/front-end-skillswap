@@ -21,8 +21,7 @@ function App() {
   useEffect(() => {
     /* global google */
     google.accounts.id.initialize({
-      client_id:
-        "777284920193-jk66hl712dain90hn9aph1i7ff8e3hjb.apps.googleusercontent.com",
+      client_id: process.env.REACT_APP_CLIENT_ID,
       callback: handleCallbackResponse,
     });
 
