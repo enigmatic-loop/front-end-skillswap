@@ -88,7 +88,10 @@ function App() {
           <h3>{user.name}</h3>
         </div>
       )}
-      <SearchBar></SearchBar>
+      <SearchBar
+        placeholder={"Enter a username..."}
+        data={USER_PROFILE_JSON}
+      ></SearchBar>
       {/* user profile will load to new page */}
       <UserProfile profile={user}></UserProfile>
     </div>
