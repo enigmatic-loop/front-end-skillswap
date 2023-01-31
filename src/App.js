@@ -1,44 +1,13 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import axios from "axios";
 import jwt_decode from "jwt-decode";
 import UserProfile from "./components/user_components/UserProfile";
+import UserDashboard from "./components/user_components/UserDashboard";
 import SearchBar from "./components/SearchBar";
-import axios from "axios";
-
-const USER_PROFILE_JSON = [
-  {
-    city: null,
-    first_name: "very",
-    id: 1,
-    last_name: "cool",
-    profile_description: null,
-    user_name: "so_cool",
-  },
-  {
-    city: "new york",
-    first_name: "really not steve",
-    id: 2,
-    last_name: "guy",
-    profile_description: "just some guy",
-    user_name: "steve_guy",
-  },
-  {
-    city: null,
-    first_name: "bruce",
-    id: 3,
-    last_name: "wayne",
-    profile_description: null,
-    user_name: "not_batman",
-  },
-  {
-    city: "gotham",
-    first_name: "selina",
-    id: 6,
-    last_name: "kyle",
-    profile_description: "def not catwoman",
-    user_name: "not_catwoman",
-  },
-];
+import Header from "./components/Header";
+import LoginPage from "./components/LoginPage";
 
 function App() {
   //google login stuff
@@ -95,10 +64,10 @@ function App() {
       .get(`${URL}/users`)
       .then((res) => {
         const userNameResList = res.data.map((user) => {
-          console.log(user);
+          // console.log(user);
           return user.user_name;
         });
-        console.log(userNameResList);
+        // console.log(userNameResList);
         setUserNames(userNameResList);
       })
       .catch((error) => {
@@ -110,6 +79,7 @@ function App() {
 
   return (
     <div className="App">
+      {/* google login API */}
       <div id="signInDiv"></div>
       {Object.keys(googleUser).length !== 0 && (
         <button onClick={(e) => handleSignOut(e)}>Sign Out</button>
@@ -121,11 +91,17 @@ function App() {
           <h3>{googleUser.name}</h3>
         </div>
       )}
+      <Header />
       <SearchBar
         placeholder={"Enter a username..."}
         userNames={userNames}
         fetchOneUserByUserName={fetchOneUserByUserName}
       ></SearchBar>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/home" element={<UserDashboard />} />
+        <Route path="/userprofile/" element={<UserProfile />} />
+      </Routes>
       {/* user profile will load to new page */}
       {/* <UserProfile profile={googleUser}></UserProfile> */}
     </div>
