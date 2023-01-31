@@ -5,9 +5,11 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 import UserProfile from "./components/user_components/UserProfile";
 import UserDashboard from "./components/user_components/UserDashboard";
+import UpdateProfileForm from "./components/user_components/UpdateProfileForm";
+import UserSignUpForm from "./components/user_components/UserSignUpForm";
 import SearchBar from "./components/SearchBar";
 import Header from "./components/Header";
-import LoginPage from "./components/LoginPage";
+import LandingPage from "./components/LandingPage";
 
 function App() {
   //google login stuff
@@ -84,23 +86,24 @@ function App() {
       {Object.keys(googleUser).length !== 0 && (
         <button onClick={(e) => handleSignOut(e)}>Sign Out</button>
       )}
-
-      {googleUser && (
-        <div>
-          <img src={googleUser.picture}></img>
-          <h3>{googleUser.name}</h3>
-        </div>
+      {Object.keys(googleUser).length !== 0 && (
+        <Header googleUser={googleUser}></Header>
       )}
-      <Header />
-      <SearchBar
-        placeholder={"Enter a username..."}
-        userNames={userNames}
-        fetchOneUserByUserName={fetchOneUserByUserName}
-      ></SearchBar>
+      {Object.keys(googleUser).length !== 0 && (
+        <SearchBar
+          placeholder={"Enter a username..."}
+          userNames={userNames}
+          fetchOneUserByUserName={fetchOneUserByUserName}
+        ></SearchBar>
+      )}
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<UserDashboard />} />
         <Route path="/userprofile/" element={<UserProfile />} />
+        <Route
+          path="/signup/"
+          element={<UserSignUpForm googleUser={googleUser} />}
+        />
       </Routes>
       {/* user profile will load to new page */}
       {/* <UserProfile profile={googleUser}></UserProfile> */}
