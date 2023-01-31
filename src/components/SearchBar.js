@@ -4,15 +4,16 @@ import PropTypes from "prop-types";
 import SearchIcon from "@material-ui/icons/Search";
 import CloseIcon from "@material-ui/icons/Close";
 
-const SearchBar = ({ placeholder, data }) => {
+const SearchBar = ({ placeholder, userNames, fetchOneUserByUserName }) => {
   const [filterUsers, setFilterUsers] = useState([]);
   const [userEntered, setUserEntered] = useState("");
 
   const handleUserSearch = (e) => {
     const searchValue = e.target.value;
     setUserEntered(searchValue);
-    const newSearch = data.filter((value) => {
-      return value.user_name.toLowerCase().includes(searchValue.toLowerCase());
+    const newSearch = userNames.filter((value) => {
+      console.log(value);
+      return value.toLowerCase().includes(searchValue.toLowerCase());
     });
 
     if (searchValue === "") {
@@ -46,9 +47,19 @@ const SearchBar = ({ placeholder, data }) => {
       </div>
       {filterUsers.length > 0 && (
         <div className="results">
-          {filterUsers.slice(0, 10).map((value, key) => {
-            return <div> {value.user_name} </div>;
-            // <a className="user_item" href="value.user_profile_link" target="_blank"> {value.user_name} </a>;
+          {filterUsers.slice(0, 10).map((username, key) => {
+            return (
+              <div
+                key={key}
+                onClick={() => {
+                  fetchOneUserByUserName(username);
+                }}
+              >
+                {" "}
+                {username}{" "}
+              </div>
+            );
+            // return <a className="user_item" href="value.user_profile_link" target="_blank"> {value.user_name} </a>;
           })}
         </div>
       )}

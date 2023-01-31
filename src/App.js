@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import UserProfile from "./components/user_components/UserProfile";
 import SearchBar from "./components/SearchBar";
+import axios from "axios";
 
 const USER_PROFILE_JSON = [
   {
@@ -41,18 +42,18 @@ const USER_PROFILE_JSON = [
 
 function App() {
   //google login stuff
-  const [user, setUser] = useState({});
+  const [googleUser, setGoogleUser] = useState({});
 
-  function handleCallbackResponse(response) {
+  function handleGoogleCallbackResponse(response) {
     console.log("JWT encoded token: " + response.credential); //delete me
     let userObject = jwt_decode(response.credential);
     console.log(userObject); //delete me
-    setUser(userObject);
+    setGoogleUser(userObject);
     document.getElementById("signInDiv").hidden = true;
   }
 
   function handleSignOut(event) {
-    setUser({});
+    setGoogleUser({});
     document.getElementById("signInDiv").hidden = false;
   }
 
@@ -60,7 +61,7 @@ function App() {
     /* global google */
     google.accounts.id.initialize({
       client_id: process.env.REACT_APP_CLIENT_ID,
-      callback: handleCallbackResponse,
+      callback: handleGoogleCallbackResponse,
     });
 
     google.accounts.id.renderButton(document.getElementById("signInDiv"), {
@@ -71,29 +72,62 @@ function App() {
     google.accounts.id.prompt();
   }, []);
 
-  // Search Bar
+  const [userNames, setUserNames] = useState([]);
+  const [user, setUser] = useState({});
 
-  // Search for User by user_name
+  const URL = "http://localhost:5000";
+
+  const fetchOneUserByUserName = (userName) => {
+    axios
+      .get(`${URL}/users/username/${userName}`)
+      .then((res) => {
+        // console.log(res.data.user);
+        setUser(res.data.user);
+        // console.log("user state: " + JSON.stringify(user));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const fetchAllUserNames = () => {
+    axios
+      .get(`${URL}/users`)
+      .then((res) => {
+        const userNameResList = res.data.map((user) => {
+          console.log(user);
+          return user.user_name;
+        });
+        console.log(userNameResList);
+        setUserNames(userNameResList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(fetchAllUserNames, []);
 
   return (
     <div className="App">
       <div id="signInDiv"></div>
-      {Object.keys(user).length !== 0 && (
+      {Object.keys(googleUser).length !== 0 && (
         <button onClick={(e) => handleSignOut(e)}>Sign Out</button>
       )}
 
-      {user && (
+      {googleUser && (
         <div>
-          <img src={user.picture}></img>
-          <h3>{user.name}</h3>
+          <img src={googleUser.picture}></img>
+          <h3>{googleUser.name}</h3>
         </div>
       )}
       <SearchBar
         placeholder={"Enter a username..."}
-        data={USER_PROFILE_JSON}
+        userNames={userNames}
+        fetchOneUserByUserName={fetchOneUserByUserName}
       ></SearchBar>
       {/* user profile will load to new page */}
-      <UserProfile profile={user}></UserProfile>
+      {/* <UserProfile profile={googleUser}></UserProfile> */}
     </div>
   );
 }
