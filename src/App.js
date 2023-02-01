@@ -10,6 +10,7 @@ import UserSignUpForm from "./components/user_components/UserSignUpForm";
 import SearchBar from "./components/SearchBar";
 import Header from "./components/Header";
 import LandingPage from "./components/LandingPage";
+import SkillBoard from "./components/skill_components/SkillBoard";
 
 function App() {
   //google login stuff
@@ -90,6 +91,24 @@ function App() {
       });
   };
 
+  // SKILL FUNCTIONS
+  const [allSkills, setAllSkills] = useState([]);
+  const fetchAllSkills = () => {
+    axios
+      .get(`${URL}/skills`)
+      .then((res) => {
+        const skillResList = res.data.map((skill) => {
+          return skill;
+        });
+        // console.log(userNameResList);
+        setAllSkills(skillResList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(fetchAllSkills, []);
+
   return (
     <div className="App">
       {/* google login API */}
@@ -111,6 +130,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<UserDashboard />} />
         <Route path="/userprofile/" element={<UserProfile />} />
+        <Route path="/skills" element={<SkillBoard skills={allSkills} />} />
         <Route
           path="/signup/"
           element={

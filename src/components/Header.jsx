@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React } from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
 
@@ -12,13 +12,16 @@ const Header = (props) => {
                 <h3>{googleUser.name}</h3>
             </li>
             <li>
-                <Link to="home" smooth={true}>my page</Link>
+                <Link to="home" smooth="true">my page</Link>
             </li>
             <li>
-                <Link to="userprofile" smooth={true}>empty user profile</Link>
+                <Link to="userprofile" smooth="true">empty user profile</Link>
             </li>
             <li>
-                <Link to="signup" smooth={true}>user sign up</Link>
+                <Link to="skills" smooth="true">Skills</Link>
+            </li>
+            <li>
+                <Link to="signup" smooth="true">user sign up</Link>
             </li>
         </ul>
     )
