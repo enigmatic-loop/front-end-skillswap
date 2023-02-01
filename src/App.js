@@ -79,6 +79,17 @@ function App() {
 
   useEffect(fetchAllUserNames, []);
 
+  const addUser = (newUserInfo) => {
+    axios
+      .post(`${URL}/users`, newUserInfo)
+      .then((res) => {
+        console.log("axios response: ", res);
+      })
+      .catch((error) => {
+        console.log("axios .catch error: ", error);
+      });
+  };
+
   return (
     <div className="App">
       {/* google login API */}
@@ -102,7 +113,12 @@ function App() {
         <Route path="/userprofile/" element={<UserProfile />} />
         <Route
           path="/signup/"
-          element={<UserSignUpForm googleUser={googleUser} />}
+          element={
+            <UserSignUpForm
+              googleUser={googleUser}
+              addUserCallbackFunc={addUser}
+            />
+          }
         />
       </Routes>
       {/* user profile will load to new page */}
