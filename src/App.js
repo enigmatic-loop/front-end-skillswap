@@ -93,6 +93,7 @@ function App() {
 
   // SKILL FUNCTIONS
   const [allSkills, setAllSkills] = useState([]);
+
   const fetchAllSkills = () => {
     axios
       .get(`${URL}/skills`)
@@ -107,7 +108,19 @@ function App() {
         console.log(error);
       });
   };
+
   useEffect(fetchAllSkills, []);
+
+  const addSkill = (newSkillInfo) => {
+    axios
+      .post(`${URL}/skills`, newSkillInfo)
+      .then((res) => {
+        console.log("axios response: ", res);
+      })
+      .catch((error) => {
+        console.log("axios .catch error: ", error);
+      });
+  };
 
   return (
     <div className="App">
@@ -130,7 +143,12 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<UserDashboard />} />
         <Route path="/userprofile/" element={<UserProfile />} />
-        <Route path="/skills" element={<SkillBoard skills={allSkills} />} />
+        <Route
+          path="/skills"
+          element={
+            <SkillBoard skills={allSkills} addSkillCallbackFunc={addSkill} />
+          }
+        />
         <Route
           path="/signup/"
           element={
