@@ -14,7 +14,7 @@ const UserSignUpForm = (props) => {
 		user_name: "",
 		first_name: googleUser.given_name,
 		last_name: googleUser.family_name,
-		city: ""
+		city: null
 	}
 
 	const [newUserFormFields, setNewUserFormFields] = useState(INITIAL_FORM_DATA);
@@ -50,7 +50,7 @@ const UserSignUpForm = (props) => {
 	const onSubmit = (e) => {
 		e.preventDefault();
 		console.log(newUserFormFields) //delete me
-		addUserCallbackFunc(newUserFormFields);
+		addUserCallbackFunc(newUserFormFields)
 	};
 
 	return (

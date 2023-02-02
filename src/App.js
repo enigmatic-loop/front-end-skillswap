@@ -1,6 +1,6 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, redirect } from "react-router-dom";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import UserProfile from "./components/user_components/UserProfile";
@@ -19,12 +19,19 @@ function App() {
   function handleGoogleCallbackResponse(response) {
     console.log("JWT encoded token: " + response.credential); //delete me
     let userObject = jwt_decode(response.credential);
-    console.log(userObject); //delete me
+    console.log("google response: ", userObject); //delete me
+    console.log(userObject.email);
     setGoogleUser(userObject);
+    validateLogin(userObject.email); //wip
+    console.log("validate googleUser: ", googleUser); //delete me
+    console.log("validate login: ", loggedUser); //delete me
     document.getElementById("signInDiv").hidden = true;
   }
 
   function handleSignOut(event) {
+    console.log(googleUser.email);
+    // console.log("validate googleUser: ", googleUser); //delete me
+    // console.log("validate login: ", loggedUser); //delete me
     setGoogleUser({});
     document.getElementById("signInDiv").hidden = false;
   }
@@ -44,9 +51,13 @@ function App() {
     google.accounts.id.prompt();
   }, []);
 
+  // GENERAL FUNCTIONS
+  const [responseMsg, setResponseMsg] = useState("");
+
+  // USER FUNCTIONS
   const [userNames, setUserNames] = useState([]);
   const [user, setUser] = useState({});
-  const [responseMsg, setResponseMsg] = useState("");
+  const [loggedUser, setLoggedUser] = useState({});
 
   const URL = "http://localhost:5000";
 
@@ -85,12 +96,33 @@ function App() {
     axios
       .post(`${URL}/users`, newUserInfo)
       .then((res) => {
-        console.log("axios response: ", res);
+        setResponseMsg(JSON.parse(res.request.response).details);
+        // console.log("axios response: ", res);
+        return alert(
+          `Account Created. Welcome to SkillSwap, ${newUserInfo.user_name}!`
+        );
       })
       .catch((error) => {
         // console.log("axios .catch error: ", error.request.response); //delete me
         setResponseMsg(JSON.parse(error.request.response).details);
         // console.log("details:", JSON.parse(error.request.response).details); //delete me
+      });
+  };
+
+  const validateLogin = (email) => {
+    axios
+      .get(`${URL}/users/email/${email}`)
+      .then((res) => {
+        // console.log(res.data.user);
+        if (googleUser.email_verified === true) {
+          setLoggedUser(res.data.user);
+          console.log(loggedUser);
+        }
+        // console.log("user state: " + JSON.stringify(user));
+      })
+      .catch((error) => {
+        setResponseMsg(JSON.parse(error.request.response).details);
+        alert(responseMsg);
       });
   };
 
@@ -143,9 +175,9 @@ function App() {
         ></SearchBar>
       )}
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<LandingPage loggedUser={loggedUser} />} />
         <Route path="/home" element={<UserDashboard />} />
-        <Route path="/userprofile/" element={<UserProfile />} />
+        <Route path="/userprofile" element={<UserProfile />} />
         <Route
           path="/skills"
           element={
@@ -153,12 +185,13 @@ function App() {
           }
         />
         <Route
-          path="/signup/"
+          path="/signup"
           element={
             <UserSignUpForm
               googleUser={googleUser}
               responseMsg={responseMsg}
               addUserCallbackFunc={addUser}
+              validateLoginCallbackFunc={validateLogin}
             />
           }
         />
