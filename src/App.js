@@ -10,6 +10,7 @@ import UserSignUpForm from "./components/user_components/UserSignUpForm";
 import SearchBar from "./components/SearchBar";
 import Header from "./components/Header";
 import LandingPage from "./components/LandingPage";
+import ResponsePage from "./components/ResponsePage";
 
 function App() {
   //google login stuff
@@ -43,11 +44,13 @@ function App() {
     google.accounts.id.prompt();
   }, []);
 
-  const [userNames, setUserNames] = useState([]);
-  const [user, setUser] = useState({});
+  const [userNames, setUserNames] = useState([]); //stores user names for the purposes of searching by user name
+  const [user, setUser] = useState({}); //stores user obj that is called for viewing user page
+  const [responseMessage, setResponseMessage] = useState({}); //stores API response message
 
   const URL = "http://localhost:5000";
 
+  //Call one user from User_ table
   const fetchOneUserByUserName = (userName) => {
     axios
       .get(`${URL}/users/username/${userName}`)
@@ -90,6 +93,8 @@ function App() {
       });
   };
 
+  useEffect(fetchAllUserNames, []);
+
   return (
     <div className="App">
       {/* google login API */}
@@ -117,8 +122,13 @@ function App() {
             <UserSignUpForm
               googleUser={googleUser}
               addUserCallbackFunc={addUser}
+              // getResponseMessageCallbackFunc={fetchResponseMessage}
             />
           }
+        />
+        <Route
+          path="/res"
+          element={<ResponsePage responseMessage={responseMessage} />}
         />
       </Routes>
       {/* user profile will load to new page */}
