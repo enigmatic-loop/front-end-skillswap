@@ -46,6 +46,7 @@ function App() {
 
   const [userNames, setUserNames] = useState([]);
   const [user, setUser] = useState({});
+  const [responseMsg, setResponseMsg] = useState("");
 
   const URL = "http://localhost:5000";
 
@@ -87,8 +88,9 @@ function App() {
         console.log("axios response: ", res);
       })
       .catch((error) => {
-        // console.log("axios .catch error: ", error);
-        console.log("axios .catch error: ", error.request.response);
+        // console.log("axios .catch error: ", error.request.response); //delete me
+        setResponseMsg(JSON.parse(error.request.response).details);
+        // console.log("details:", JSON.parse(error.request.response).details); //delete me
       });
   };
 
@@ -155,6 +157,7 @@ function App() {
           element={
             <UserSignUpForm
               googleUser={googleUser}
+              responseMsg={responseMsg}
               addUserCallbackFunc={addUser}
             />
           }

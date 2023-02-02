@@ -4,6 +4,7 @@ import "./UserSignUpForm.css";
 const UserSignUpForm = (props) => {
 	const googleUser = props.googleUser
 	const addUserCallbackFunc = props.addUserCallbackFunc
+	const responseMsg = props.responseMsg
 
 	// we would like to populate firstName, and lastName in INITIAL_FORM_DATA with googleUser.given_name and googleUser.family_name
 	// requires check for required fields
@@ -90,6 +91,7 @@ const UserSignUpForm = (props) => {
 				<div>
 						<input type="submit" value="Sign Up" />
 				</div>
+				<h3>{responseMsg}</h3>
 			</formset>
 		</form>
 	)
