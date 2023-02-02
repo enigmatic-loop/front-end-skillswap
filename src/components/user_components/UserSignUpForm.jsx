@@ -11,8 +11,8 @@ const UserSignUpForm = (props) => {
 	const INITIAL_FORM_DATA = {
 		email: googleUser.email,
 		user_name: "",
-		first_name: "",
-		last_name: "",
+		first_name: googleUser.given_name,
+		last_name: googleUser.family_name,
 		city: ""
 	}
 
@@ -51,13 +51,6 @@ const UserSignUpForm = (props) => {
 		console.log(newUserFormFields) //delete me
 		addUserCallbackFunc(newUserFormFields);
 	};
-
-	// useEffect(() => setNewUserFormFields({
-	// 	userName: "",
-	// 	firstName: googleUser.given_name,
-	// 	lastName: googleUser.family_name,
-	// 	city: ""
-	// }), []);
 
 	return (
 		<form onSubmit={onSubmit}>

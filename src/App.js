@@ -87,7 +87,8 @@ function App() {
         console.log("axios response: ", res);
       })
       .catch((error) => {
-        console.log("axios .catch error: ", error);
+        // console.log("axios .catch error: ", error);
+        console.log("axios .catch error: ", error.request.response);
       });
   };
 
