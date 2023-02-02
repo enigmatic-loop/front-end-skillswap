@@ -12,9 +12,11 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
     name: "",
     description: "",
     time: 0,
-    tags: [],
+    tags: null,
     user_id: null,
   });
+
+  const [tagsState, setTagsState] = useState([])
 
   const onSkillNameChange = (e) => {
 		setNewSkillFormFields({
@@ -39,21 +41,39 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
 
 	const onTagChange = (e) => {
     const tagsValue = e.target.value
-    const tagArray = tagsValue.split(" ")
-    console.log(tagsValue)
+    // console.log(tagsValue)
 		setNewSkillFormFields({
 			...newSkillFormFields,
-			tags: tagArray,
+			tags: tagsValue,
 		});
 	};
 
+  const addTags = (e) => {
+    if (e.key === "Enter") {
+      console.log(e.target.value)
+      setTagsState([...tagsState, e.target.value])
+      console.log(tagsState)
+      e.target.value = ""
+    }
+  }
+
+  // const removeTag = (tagIndex) => {}
+
+  const preventEnterSubmit = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault()
+    };
+  }
   const onSubmit = (e) => {
 		e.preventDefault();
+    setNewSkillFormFields({...newSkillFormFields, tags: tagsState})
+    console.log(`Tag state: ${tagsState}`)
+    console.log(newSkillFormFields.tags)
 		addSkillCallbackFunc(newSkillFormFields);
 	};
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} onKeyDown={preventEnterSubmit}>
       <legend>Add a Skill</legend>
       <div>
         <p>Name: 
@@ -75,13 +95,21 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
           value={newSkillFormFields.time} 
           placeholder="enter a time..." 
           onChange={onTimeChange}/></p>
+          {/* increment by 15mins */}
       </div>
       <div>
         <p>Tags: 
+        <ul>
+          {tagsState.map((tag, index) => {
+              return (<li key={index}>{tag}</li>)})
+          }
+        </ul>
         <input name="tags" 
-          value={newSkillFormFields.tags} 
+          // value={newSkillFormFields.tags}
+          onChange={onTagChange}
+          type="text" 
           placeholder="enter tag(s)..." 
-          onChange={onTagChange}/></p>
+          onKeyUp={addTags}/></p>
       </div>
       <div>
 						<input type="submit" value="Add skill" />
