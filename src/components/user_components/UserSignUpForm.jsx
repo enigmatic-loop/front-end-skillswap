@@ -3,7 +3,8 @@ import "./UserSignUpForm.css";
 
 const UserSignUpForm = (props) => {
 	const googleUser = props.googleUser
-	const addUserCallbackFunc = props.addUserCallbackFunc
+	const addUser = props.addUserCallbackFunc
+	const getResponseMessage = props.getResponseMessageCallbackFunc
 
 	// we would like to populate firstName, and lastName in INITIAL_FORM_DATA with googleUser.given_name and googleUser.family_name
 	// requires check for required fields
@@ -49,7 +50,7 @@ const UserSignUpForm = (props) => {
 	const onSubmit = (e) => {
 		e.preventDefault();
 		console.log(newUserFormFields) //delete me
-		addUserCallbackFunc(newUserFormFields);
+		addUser(newUserFormFields);
 	};
 
 	// useEffect(() => setNewUserFormFields({
