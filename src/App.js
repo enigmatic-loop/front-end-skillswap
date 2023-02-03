@@ -22,17 +22,15 @@ function App() {
     console.log("google response: ", userObject); //delete me
     console.log(userObject.email);
     setGoogleUser(userObject);
-    validateLogin(userObject.email); //wip
-    console.log("validate googleUser: ", googleUser); //delete me
-    console.log("validate login: ", loggedUser); //delete me
+    validateLogin(userObject); //wip
+    // console.log("validate login: ", loggedUser); //delete me
     document.getElementById("signInDiv").hidden = true;
   }
 
   function handleSignOut(event) {
-    console.log(googleUser.email);
-    // console.log("validate googleUser: ", googleUser); //delete me
-    // console.log("validate login: ", loggedUser); //delete me
     setGoogleUser({});
+    setLoggedUser({});
+    // console.log("logged user on sign out: ", loggedUser); //delete me
     document.getElementById("signInDiv").hidden = false;
   }
 
@@ -53,6 +51,16 @@ function App() {
 
   // GENERAL FUNCTIONS
   const [responseMsg, setResponseMsg] = useState("");
+
+  // const timeout = (delay) => {
+  //   return new Promise((res) => setTimeout(res, delay));
+  // };
+
+  const timeout = (content, time) => {
+    setTimeout(() => {
+      console.log(content);
+    }, time);
+  };
 
   // USER FUNCTIONS
   const [userNames, setUserNames] = useState([]);
@@ -109,14 +117,17 @@ function App() {
       });
   };
 
-  const validateLogin = (email) => {
+  const validateLogin = (googleObj) => {
     axios
-      .get(`${URL}/users/email/${email}`)
+      .get(`${URL}/users/email/${googleObj.email}`)
       .then((res) => {
         // console.log(res.data.user);
-        if (googleUser.email_verified === true) {
+        // console.log("I'm in validateLogin");
+        // console.log("validate googleUser: ", googleUser); //delete me
+        if (googleObj.email_verified === true) {
           setLoggedUser(res.data.user);
-          console.log(loggedUser);
+          console.log("get response obj: ", res.data.user); //delete me
+          console.log("logged user inside validateLogin: ", loggedUser); //delete me
         }
         // console.log("user state: " + JSON.stringify(user));
       })
