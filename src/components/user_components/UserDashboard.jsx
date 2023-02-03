@@ -1,9 +1,13 @@
-import { React } from "react";
+import { React, useContext } from "react";
+import { UserContext } from "../../App";
 import SkillBoard from "../skill_components/SkillBoard";
+import NewSkillForm from "../skill_components/NewSkillForm";
 import "./UserDashboard.css";
 
-const UserDashboard = ({ loggedUser, getLoggedInUserSkills, addSkillCallbackFunc }) => {
+const UserDashboard = ({ getLoggedInUserSkills, addSkillCallbackFunc }) => {
+  const loggedUser = useContext(UserContext)
   const userSkills = getLoggedInUserSkills(loggedUser.id)
+  console.log("UserContext: ",loggedUser)
   return (
     <div>
       <h3>home</h3>
@@ -18,8 +22,8 @@ const UserDashboard = ({ loggedUser, getLoggedInUserSkills, addSkillCallbackFunc
         <SkillBoard
               skills={userSkills}
               addSkillCallbackFunc={addSkillCallbackFunc}
-              loggedUser={loggedUser}
             />
+        <NewSkillForm addSkillCallbackFunc={addSkillCallbackFunc} />
       </ul>
     </div>
   )

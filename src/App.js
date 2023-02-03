@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import { Routes, Route, redirect } from "react-router-dom";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
@@ -11,6 +11,8 @@ import SearchBar from "./components/SearchBar";
 import Header from "./components/Header";
 import LandingPage from "./components/LandingPage";
 import SkillBoard from "./components/skill_components/SkillBoard";
+
+export const UserContext = createContext(null);
 
 function App() {
   //google login stuff
@@ -66,6 +68,7 @@ function App() {
   const [userNames, setUserNames] = useState([]);
   const [user, setUser] = useState({});
   const [loggedUser, setLoggedUser] = useState({});
+  const [allUsers, setAllUsers] = useState([]);
 
   const URL = "http://localhost:5000";
 
@@ -90,13 +93,29 @@ function App() {
           // console.log(user);
           return user.user_name;
         });
-        // console.log(userNameResList);
         setUserNames(userNameResList);
+        const usersResList = res.data.map((user) => {
+          // console.log(user);
+          return user;
+        });
+        setAllUsers(usersResList);
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  // const fetchOneUserById = (userId) => {
+  //   axios
+  //     .get(`${URL}/users/${userId}`)
+  //     .then((res) => {
+  //       console.log(res.data.user.user_name);
+  //       return res.data.user.user_name;
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   useEffect(fetchAllUserNames, []);
 
@@ -195,42 +214,39 @@ function App() {
           fetchOneUserByUserName={fetchOneUserByUserName}
         ></SearchBar>
       )}
-      <Routes>
-        <Route path="/" element={<LandingPage loggedUser={loggedUser} />} />
-        <Route
-          path="/home"
-          element={
-            <UserDashboard
-              loggedUser={loggedUser}
-              getLoggedInUserSkills={getLoggedInUserSkills}
-              addSkillCallbackFunc={addSkill}
-              skills={allSkills}
-            />
-          }
-        />
-        <Route path="/userprofile" element={<UserProfile />} />
-        <Route
-          path="/skills"
-          element={
-            <SkillBoard
-              skills={allSkills}
-              addSkillCallbackFunc={addSkill}
-              loggedUser={loggedUser}
-            />
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <UserSignUpForm
-              googleUser={googleUser}
-              responseMsg={responseMsg}
-              addUserCallbackFunc={addUser}
-              validateLoginCallbackFunc={validateLogin}
-            />
-          }
-        />
-      </Routes>
+      <UserContext.Provider value={loggedUser}>
+        <Routes>
+          <Route path="/" element={<LandingPage loggedUser={loggedUser} />} />
+          <Route
+            path="/home"
+            element={
+              <UserDashboard
+                getLoggedInUserSkills={getLoggedInUserSkills}
+                addSkillCallbackFunc={addSkill}
+                skills={allSkills}
+              />
+            }
+          />
+          <Route path="/userprofile" element={<UserProfile />} />
+          <Route
+            path="/skills"
+            element={
+              <SkillBoard skills={allSkills} addSkillCallbackFunc={addSkill} />
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <UserSignUpForm
+                googleUser={googleUser}
+                responseMsg={responseMsg}
+                addUserCallbackFunc={addUser}
+                validateLoginCallbackFunc={validateLogin}
+              />
+            }
+          />
+        </Routes>
+      </UserContext.Provider>
       {/* user profile will load to new page */}
       {/* <UserProfile profile={googleUser}></UserProfile> */}
     </div>

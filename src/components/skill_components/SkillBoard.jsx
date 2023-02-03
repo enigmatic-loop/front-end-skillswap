@@ -1,9 +1,8 @@
-import React from "react";
+import { React } from "react";
 import Skill from "./Skill";
-import NewSkillForm from "./NewSkillForm";
 import PropTypes from "prop-types";
 
-const SkillBoard = ({loggedUser, skills, addSkillCallbackFunc}) => {
+const SkillBoard = ({ skills }) => {
   const skillComponents = [];
   if (skills) {
     for (const skill of skills) {
@@ -14,7 +13,7 @@ const SkillBoard = ({loggedUser, skills, addSkillCallbackFunc}) => {
           name={skill.name}
           description={skill.description}
           time={skill.time}
-          userId={skill.userId}
+          userId={skill.user_id}
           tags={skill.tags}
         />
       )
@@ -24,11 +23,11 @@ const SkillBoard = ({loggedUser, skills, addSkillCallbackFunc}) => {
   // if (!selectedUser) {
   //   return;
   // }
+  const skillBoardTitle = "Skills"
   return (
     <div>
-      <h2>User's Skills</h2>
+      <h1>{skillBoardTitle}</h1>
       <ul>{skillComponents}</ul>
-      <NewSkillForm addSkillCallbackFunc={addSkillCallbackFunc} loggedUser={loggedUser}/>
     </div>
   )
 }

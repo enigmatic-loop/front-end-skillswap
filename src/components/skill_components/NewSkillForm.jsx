@@ -1,4 +1,5 @@
-import { React, useState } from "react";
+import { React, useState, useContext } from "react";
+import { UserContext } from "../../App";
 
 // "id": self.skill_id,
 // "name": self.name,
@@ -7,7 +8,8 @@ import { React, useState } from "react";
 // "time": self.time,
 // "user_id": self.user_id,
 
-const NewSkillForm = ({addSkillCallbackFunc, loggedUser}) => {
+const NewSkillForm = ({addSkillCallbackFunc}) => {
+  const loggedUser = useContext(UserContext)
   const [newSkillFormFields, setNewSkillFormFields] = useState({
     name: "",
     description: "",
