@@ -1,6 +1,6 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import { Routes, Route, redirect } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import UserProfile from "./components/user_components/UserProfile";
@@ -14,6 +14,7 @@ import SkillBoard from "./components/skill_components/SkillBoard";
 
 function App() {
   //google login stuff
+
   const [googleUser, setGoogleUser] = useState({});
 
   function handleGoogleCallbackResponse(response) {
@@ -22,16 +23,17 @@ function App() {
     console.log("google response: ", userObject); //delete me
     console.log(userObject.email);
     setGoogleUser(userObject);
-    validateLogin(userObject); //wip
     // console.log("validate login: ", loggedUser); //delete me
     document.getElementById("signInDiv").hidden = true;
+    validateLogin(userObject);
   }
 
   function handleSignOut(event) {
     setGoogleUser({});
     setLoggedUser({});
-    // console.log("logged user on sign out: ", loggedUser); //delete me
+    console.log("logged user on sign out: ", loggedUser); //delete me
     document.getElementById("signInDiv").hidden = false;
+    timeoutNav("/", 100);
   }
 
   useEffect(() => {
@@ -52,13 +54,12 @@ function App() {
   // GENERAL FUNCTIONS
   const [responseMsg, setResponseMsg] = useState("");
 
-  // const timeout = (delay) => {
-  //   return new Promise((res) => setTimeout(res, delay));
-  // };
+  const navigate = useNavigate();
 
-  const timeout = (content, time) => {
+  //timer navigation function
+  const timeoutNav = (location, time) => {
     setTimeout(() => {
-      console.log(content);
+      navigate(location);
     }, time);
   };
 
@@ -106,9 +107,11 @@ function App() {
       .then((res) => {
         setResponseMsg(JSON.parse(res.request.response).details);
         // console.log("axios response: ", res);
-        return alert(
+        setLoggedUser(newUserInfo);
+        alert(
           `Account Created. Welcome to SkillSwap, ${newUserInfo.user_name}!`
         );
+        timeoutNav("/home", 500);
       })
       .catch((error) => {
         // console.log("axios .catch error: ", error.request.response); //delete me
@@ -118,23 +121,27 @@ function App() {
   };
 
   const validateLogin = (googleObj) => {
-    axios
-      .get(`${URL}/users/email/${googleObj.email}`)
-      .then((res) => {
-        // console.log(res.data.user);
-        // console.log("I'm in validateLogin");
-        // console.log("validate googleUser: ", googleUser); //delete me
-        if (googleObj.email_verified === true) {
-          setLoggedUser(res.data.user);
-          console.log("get response obj: ", res.data.user); //delete me
-          console.log("logged user inside validateLogin: ", loggedUser); //delete me
-        }
-        // console.log("user state: " + JSON.stringify(user));
-      })
-      .catch((error) => {
-        setResponseMsg(JSON.parse(error.request.response).details);
-        alert(responseMsg);
-      });
+    try {
+      axios
+        .get(`${URL}/users/email/${googleObj.email}`)
+        .then((res) => {
+          if (
+            googleObj.email_verified === true &&
+            googleObj.email === res.data.user.email
+          ) {
+            setLoggedUser(res.data.user);
+            timeoutNav("/home", 100);
+          }
+        })
+        .catch((error) => {
+          alert(JSON.parse(error.request.response).details);
+          timeoutNav("/", 500);
+        });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      timeoutNav("/signup", 100);
+    }
   };
 
   // SKILL FUNCTIONS
