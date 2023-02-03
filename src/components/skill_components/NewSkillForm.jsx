@@ -15,6 +15,7 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
     description: "",
     time: 0,
     tags: null,
+    user_name: loggedUser.user_name,
     user_id: loggedUser.id,
   });
 
@@ -52,7 +53,7 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
 
   const addTags = (e) => {
     if (e.key === "Enter") {
-      console.log(e.target.value)
+      // console.log(e.target.value)
       setTagsState([...tagsState, e.target.value])
       console.log(tagsState)
       e.target.value = ""

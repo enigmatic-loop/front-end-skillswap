@@ -197,6 +197,48 @@ function App() {
       });
   };
 
+  const deleteSkill = (skillId) => {
+    axios
+      .delete(`${URL}/skills/${skillId}`)
+      .then(() => {
+        const newSkillList = [];
+        for (const skill of allSkills) {
+          if (skill.id !== skillId) {
+            newSkillList.push(skill);
+          }
+        }
+        setAllSkills(newSkillList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const updateSkill = (skillId, updatedSkillInfo) => {
+    axios
+      .patch(`${URL}/${skillId}/update_skill`)
+      .then(() => {
+        const newSkillList = [];
+        for (const skill of allSkills) {
+          if (skill.id !== skillId) {
+            newSkillList.push(skill);
+          } else {
+            const updatedSkill = {
+              name: updatedSkillInfo.name,
+              description: updatedSkillInfo.description,
+              time: updatedSkillInfo.time,
+              tags: updatedSkillInfo.tags,
+            };
+            newSkillList.push(updatedSkill);
+          }
+        }
+        setAllSkills(newSkillList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="App">
       {/* google login API */}
@@ -223,6 +265,7 @@ function App() {
               <UserDashboard
                 getLoggedInUserSkills={getLoggedInUserSkills}
                 addSkillCallbackFunc={addSkill}
+                deleteSkillCallbackFunc={deleteSkill}
                 skills={allSkills}
               />
             }
@@ -231,7 +274,10 @@ function App() {
           <Route
             path="/skills"
             element={
-              <SkillBoard skills={allSkills} addSkillCallbackFunc={addSkill} />
+              <SkillBoard
+                skills={allSkills}
+                deleteSkillCallbackFunc={deleteSkill}
+              />
             }
           />
           <Route
