@@ -7,13 +7,13 @@ import { React, useState } from "react";
 // "time": self.time,
 // "user_id": self.user_id,
 
-const NewSkillForm = ({addSkillCallbackFunc}) => {
+const NewSkillForm = ({addSkillCallbackFunc, loggedUser}) => {
   const [newSkillFormFields, setNewSkillFormFields] = useState({
     name: "",
     description: "",
     time: 0,
     tags: null,
-    user_id: null,
+    user_id: loggedUser.id,
   });
 
   const [tagsState, setTagsState] = useState([])
@@ -66,9 +66,9 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
   }
   const onSubmit = (e) => {
 		e.preventDefault();
-    setNewSkillFormFields({...newSkillFormFields, tags: tagsState})
-    console.log(`Tag state: ${tagsState}`)
-    console.log(newSkillFormFields.tags)
+    // setNewSkillFormFields({...newSkillFormFields, tags: tagsState})
+    // console.log(`Tag state: ${tagsState}`)
+    // console.log(newSkillFormFields.tags)
 		addSkillCallbackFunc(newSkillFormFields);
 	};
 
@@ -98,7 +98,7 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
           {/* increment by 15mins */}
       </div>
       <div>
-        <p>Tags: 
+        <section>Tags: 
         <ul>
           {tagsState.map((tag, index) => {
               return (<li key={index}>{tag}</li>)})
@@ -109,7 +109,7 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
           onChange={onTagChange}
           type="text" 
           placeholder="enter tag(s)..." 
-          onKeyUp={addTags}/></p>
+          onKeyUp={addTags}/></section>
       </div>
       <div>
 						<input type="submit" value="Add skill" />

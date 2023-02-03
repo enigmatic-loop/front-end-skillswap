@@ -9,9 +9,11 @@ import PropTypes from "prop-types";
 // "user_id": self.user_id,
 
 const Skill = ({id, name, tags, description, time, userId}) => {
-  const tag_list = [];
-  for (const tag of tags) {
-    tag_list.push(tag, " ")
+  const tagList = [];
+  if (tags) {
+    for (const tag of tags) {
+      tagList.push(tag, " ")
+    }
   }
 
   return (
@@ -20,7 +22,7 @@ const Skill = ({id, name, tags, description, time, userId}) => {
         <li>Skill: {name}</li>
         <li>Description: {description}</li>
         <li>Time: {time}</li>
-        <li>Tags: {tag_list}</li>
+        <li>Tags: {tagList}</li>
         <li>User ID: {userId}</li>
       </ul>
     </div>

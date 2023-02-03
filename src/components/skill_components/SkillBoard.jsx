@@ -3,7 +3,7 @@ import Skill from "./Skill";
 import NewSkillForm from "./NewSkillForm";
 import PropTypes from "prop-types";
 
-const SkillBoard = ({selectedUser, skills, addSkillCallbackFunc}) => {
+const SkillBoard = ({loggedUser, skills, addSkillCallbackFunc}) => {
   const skillComponents = [];
   if (skills) {
     for (const skill of skills) {
@@ -28,7 +28,7 @@ const SkillBoard = ({selectedUser, skills, addSkillCallbackFunc}) => {
     <div>
       <h2>User's Skills</h2>
       <ul>{skillComponents}</ul>
-      <NewSkillForm addSkillCallbackFunc={addSkillCallbackFunc}/>
+      <NewSkillForm addSkillCallbackFunc={addSkillCallbackFunc} loggedUser={loggedUser}/>
     </div>
   )
 }

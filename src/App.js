@@ -17,7 +17,7 @@ function App() {
   const [googleUser, setGoogleUser] = useState({});
 
   function handleGoogleCallbackResponse(response) {
-    console.log("JWT encoded token: " + response.credential); //delete me
+    // console.log("JWT encoded token: " + response.credential); //delete me
     let userObject = jwt_decode(response.credential);
     console.log("google response: ", userObject); //delete me
     console.log(userObject.email);
@@ -127,7 +127,7 @@ function App() {
         if (googleObj.email_verified === true) {
           setLoggedUser(res.data.user);
           console.log("get response obj: ", res.data.user); //delete me
-          console.log("logged user inside validateLogin: ", loggedUser); //delete me
+          // console.log("logged user inside validateLogin: ", loggedUser); //delete me
         }
         // console.log("user state: " + JSON.stringify(user));
       })
@@ -156,6 +156,16 @@ function App() {
   };
 
   useEffect(fetchAllSkills, []);
+
+  const getLoggedInUserSkills = (userId) => {
+    const loggedInUserSkills = [];
+    for (const skill of allSkills) {
+      if (skill.user_id === userId) {
+        loggedInUserSkills.push(skill);
+      }
+    }
+    return loggedInUserSkills;
+  };
 
   const addSkill = (newSkillInfo) => {
     axios
@@ -187,12 +197,26 @@ function App() {
       )}
       <Routes>
         <Route path="/" element={<LandingPage loggedUser={loggedUser} />} />
-        <Route path="/home" element={<UserDashboard />} />
+        <Route
+          path="/home"
+          element={
+            <UserDashboard
+              loggedUser={loggedUser}
+              getLoggedInUserSkills={getLoggedInUserSkills}
+              addSkillCallbackFunc={addSkill}
+              skills={allSkills}
+            />
+          }
+        />
         <Route path="/userprofile" element={<UserProfile />} />
         <Route
           path="/skills"
           element={
-            <SkillBoard skills={allSkills} addSkillCallbackFunc={addSkill} />
+            <SkillBoard
+              skills={allSkills}
+              addSkillCallbackFunc={addSkill}
+              loggedUser={loggedUser}
+            />
           }
         />
         <Route
