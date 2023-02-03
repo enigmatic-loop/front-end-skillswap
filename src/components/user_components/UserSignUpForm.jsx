@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./UserSignUpForm.css";
 
 const UserSignUpForm = (props) => {
@@ -14,7 +14,7 @@ const UserSignUpForm = (props) => {
 		user_name: "",
 		first_name: googleUser.given_name,
 		last_name: googleUser.family_name,
-		city: null
+		city: ""
 	}
 
 	const [newUserFormFields, setNewUserFormFields] = useState(INITIAL_FORM_DATA);
@@ -55,7 +55,6 @@ const UserSignUpForm = (props) => {
 
 	return (
 		<form onSubmit={onSubmit}>
-			<formset>
 				<legend>Sign Up</legend>
 				<div>
 					<p><b>email: </b> {googleUser.email}</p>
@@ -92,7 +91,6 @@ const UserSignUpForm = (props) => {
 						<input type="submit" value="Sign Up" />
 				</div>
 				<h3>{responseMsg}</h3>
-			</formset>
 		</form>
 	)
 }
