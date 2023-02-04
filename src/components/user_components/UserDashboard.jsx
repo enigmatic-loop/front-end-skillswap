@@ -1,16 +1,20 @@
-import { React, useContext } from "react";
+import { React, useContext, useEffect } from "react";
 import { UserContext } from "../../App";
 import SkillBoard from "../skill_components/SkillBoard";
 import NewSkillForm from "../skill_components/NewSkillForm";
 import "./UserDashboard.css";
 
-const UserDashboard = ({ getLoggedInUserSkills, addSkillCallbackFunc }) => {
+const UserDashboard = ({ getLoggedInUserSkills, addSkillCallbackFunc, kickOutCallbackFunc }) => {
   const loggedUser = useContext(UserContext)
   const userSkills = getLoggedInUserSkills(loggedUser.id)
+  const kickOut = kickOutCallbackFunc(loggedUser)
   console.log("UserContext: ",loggedUser)
+
+  useEffect(()=>kickOut, [])
+
   return (
     <div>
-      <h3>home</h3>
+    <h3>home</h3>
       <ul>
         <li>User Name: {loggedUser.user_name}</li>
         <li>First Name: {loggedUser.first_name}</li>

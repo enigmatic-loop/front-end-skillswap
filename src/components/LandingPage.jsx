@@ -1,12 +1,8 @@
-import { React, useState } from "react";
+import { React } from "react";
 import "./LandingPage.css";
 
-const LandingPage = (props) => {
-	const loggedUser = props.loggedUser
+const LandingPage = () => {
 
-	// if (loggedUser) {
-		
-	// }
 
 	return (
 		<div>

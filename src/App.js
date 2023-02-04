@@ -1,11 +1,5 @@
 import "./App.css";
-import {
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-  redirect,
-} from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect, useState, createContext } from "react";
 
 import axios from "axios";
@@ -22,6 +16,12 @@ import SkillBoard from "./components/skill_components/SkillBoard";
 export const UserContext = createContext(null);
 
 function App() {
+  //STATE VARIABLES
+  const [userNames, setUserNames] = useState([]);
+  const [user, setUser] = useState({});
+  const [loggedUser, setLoggedUser] = useState({});
+  const [allUsers, setAllUsers] = useState([]);
+
   //google login stuff
 
   const [googleUser, setGoogleUser] = useState({});
@@ -42,7 +42,7 @@ function App() {
     setLoggedUser({});
     console.log("logged user on sign out: ", loggedUser); //delete me
     document.getElementById("signInDiv").hidden = false;
-    timeoutNav("/", 100);
+    timeoutNav("/", 0);
   }
 
   useEffect(() => {
@@ -72,11 +72,15 @@ function App() {
     }, time);
   };
 
+  //kick back to landing page
+  const kickOut = (obj) => {
+    // Helper func - kicks user back to landing page if obj stored in obj parameter is empty
+    if (Object.keys(obj).length === 0) {
+      timeoutNav("/", 100);
+    }
+  };
+
   // USER FUNCTIONS
-  const [userNames, setUserNames] = useState([]);
-  const [user, setUser] = useState({});
-  const [loggedUser, setLoggedUser] = useState({});
-  const [allUsers, setAllUsers] = useState([]);
 
   const URL = "http://localhost:5000";
 
@@ -132,8 +136,8 @@ function App() {
       .post(`${URL}/users`, newUserInfo)
       .then((res) => {
         setResponseMsg(JSON.parse(res.request.response).details);
-        // console.log("axios response: ", res);
-        setLoggedUser(newUserInfo);
+        // console.log("axios response: ", res); //delete me
+        validateLogin(googleUser);
         alert(
           `Account Created. Welcome to SkillSwap, ${newUserInfo.user_name}!`
         );
@@ -148,15 +152,21 @@ function App() {
 
   const validateLogin = (googleObj) => {
     try {
+      console.log("in validate login");
       axios
         .get(`${URL}/users/email/${googleObj.email}`)
         .then((res) => {
+          console.log(".then conditional activated!");
+          console.log("axios response: ", res); //delete me
           if (
             googleObj.email_verified === true &&
             googleObj.email === res.data.user.email
           ) {
+            console.log("aaaaaaaaaaa", res.data.user); //delete me
             setLoggedUser(res.data.user);
             timeoutNav("/home", 100);
+          } else {
+            timeoutNav("/", 100);
           }
         })
         .catch((error) => {
@@ -167,6 +177,31 @@ function App() {
       console.log(error);
     } finally {
       timeoutNav("/signup", 100);
+    }
+  };
+
+  const updateUser = (updatedUserInfo) => {
+    if (
+      updatedUserInfo.first_name.length < 1 ||
+      updatedUserInfo.last_name.length < 1
+    ) {
+      setResponseMsg("Please complete all required fields");
+    } else {
+      axios
+        .patch(`${URL}/users/${loggedUser.id}/update_user`, updatedUserInfo)
+        .then((res) => {
+          setResponseMsg(JSON.parse(res.request.response).details);
+          for (let objKey of Object.keys(updatedUserInfo)) {
+            loggedUser[objKey] = updatedUserInfo[objKey];
+          }
+
+          alert(`${loggedUser.user_name}'s profile updated`);
+          timeoutNav("/home", 500);
+        })
+        .catch((error) => {
+          console.log(error); //delete me
+          setResponseMsg(JSON.parse(error.request.response).details);
+        });
     }
   };
 
@@ -215,13 +250,13 @@ function App() {
     <div className="App">
       {/* google login API */}
       <div id="signInDiv"></div>
-      {Object.keys(googleUser).length !== 0 && (
+      {Object.keys(loggedUser).length !== 0 && (
         <button onClick={(e) => handleSignOut(e)}>Sign Out</button>
       )}
-      {Object.keys(googleUser).length !== 0 && (
+      {Object.keys(loggedUser).length !== 0 && (
         <Header googleUser={googleUser}></Header>
       )}
-      {Object.keys(googleUser).length !== 0 && (
+      {Object.keys(loggedUser).length !== 0 && (
         <SearchBar
           placeholder={"Enter a username..."}
           userNames={userNames}
@@ -230,7 +265,7 @@ function App() {
       )}
       <UserContext.Provider value={loggedUser}>
         <Routes>
-          <Route path="/" element={<LandingPage loggedUser={loggedUser} />} />
+          <Route path="/" element={<LandingPage />} />
           <Route
             path="/home"
             element={
@@ -238,6 +273,7 @@ function App() {
                 getLoggedInUserSkills={getLoggedInUserSkills}
                 addSkillCallbackFunc={addSkill}
                 skills={allSkills}
+                kickOutCallbackFunc={kickOut}
               />
             }
           />
@@ -256,6 +292,17 @@ function App() {
                 responseMsg={responseMsg}
                 addUserCallbackFunc={addUser}
                 validateLoginCallbackFunc={validateLogin}
+                kickOutCallbackFunc={kickOut}
+              />
+            }
+          />
+          <Route
+            path="/updateprofile"
+            element={
+              <UpdateProfileForm
+                updateUserCallbackFunc={updateUser}
+                responseMsg={responseMsg}
+                kickOutCallbackFunc={kickOut}
               />
             }
           />

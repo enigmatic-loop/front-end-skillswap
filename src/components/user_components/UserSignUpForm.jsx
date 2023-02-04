@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./UserSignUpForm.css";
 
 const UserSignUpForm = (props) => {
 	const googleUser = props.googleUser
 	const addUserCallbackFunc = props.addUserCallbackFunc
 	const responseMsg = props.responseMsg
+	const kickOut = props.kickOutCallbackFunc(googleUser)
 
 	// we would like to populate firstName, and lastName in INITIAL_FORM_DATA with googleUser.given_name and googleUser.family_name
 	// requires check for required fields
+
+	useEffect(()=>kickOut, [])
 
 	const INITIAL_FORM_DATA = {
 		email: googleUser.email,
@@ -61,7 +64,7 @@ const UserSignUpForm = (props) => {
 				</div>
 				<div>
 						<p><b>username: </b>
-						<input name="user name" 
+						<input name="username" 
 							value={newUserFormFields.user_name} 
 							placeholder="enter a username..." 
 							onChange={onUserNameChange} />*</p>
