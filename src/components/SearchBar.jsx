@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import SearchIcon from "@material-ui/icons/Search";
 import CloseIcon from "@material-ui/icons/Close";
 
-const SearchBar = ({ placeholder, userNames, fetchOneUserByUserName }) => {
+const SearchBar = ({ placeholder, userNames, fetchOneUserByUserName, timeoutNav }) => {
   const [filterUsers, setFilterUsers] = useState([]);
   const [userEntered, setUserEntered] = useState("");
 
@@ -12,7 +12,7 @@ const SearchBar = ({ placeholder, userNames, fetchOneUserByUserName }) => {
     const searchValue = e.target.value;
     setUserEntered(searchValue);
     const newSearch = userNames.filter((value) => {
-      console.log(value);
+      // console.log(value);
       return value.toLowerCase().includes(searchValue.toLowerCase());
     });
 
@@ -53,6 +53,7 @@ const SearchBar = ({ placeholder, userNames, fetchOneUserByUserName }) => {
                 key={key}
                 onClick={() => {
                   fetchOneUserByUserName(username);
+                  timeoutNav("/userprofile", 500)
                 }}
               >
                 {" "}

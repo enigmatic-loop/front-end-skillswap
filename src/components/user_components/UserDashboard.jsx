@@ -4,10 +4,10 @@ import SkillBoard from "../skill_components/SkillBoard";
 import NewSkillForm from "../skill_components/NewSkillForm";
 import "./UserDashboard.css";
 
-const UserDashboard = ({ getLoggedInUserSkills, addSkillCallbackFunc, deleteSkillCallbackFunc }) => {
+const UserDashboard = ({ getLoggedInUserSkills, addSkillCallbackFunc, deleteSkillCallbackFunc, updateSkillCallbackFunc }) => {
   const loggedUser = useContext(UserContext)
   const userSkills = getLoggedInUserSkills(loggedUser.id)
-  console.log("UserContext: ",loggedUser)
+  // console.log("UserContext: ",loggedUser)
   return (
     <div>
       <h3>home</h3>
@@ -22,6 +22,7 @@ const UserDashboard = ({ getLoggedInUserSkills, addSkillCallbackFunc, deleteSkil
         <SkillBoard
               skills={userSkills}
               deleteSkillCallbackFunc={deleteSkillCallbackFunc}
+              updateSkillCallbackFunc={updateSkillCallbackFunc}
             />
         <NewSkillForm addSkillCallbackFunc={addSkillCallbackFunc} />
       </ul>

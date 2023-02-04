@@ -230,7 +230,7 @@ function App() {
 
   const updateSkill = (skillId, updatedSkillInfo) => {
     axios
-      .patch(`${URL}/${skillId}/update_skill`)
+      .patch(`${URL}/skills/${skillId}/update_skill`, updatedSkillInfo)
       .then(() => {
         const newSkillList = [];
         for (const skill of allSkills) {
@@ -242,6 +242,8 @@ function App() {
               description: updatedSkillInfo.description,
               time: updatedSkillInfo.time,
               tags: updatedSkillInfo.tags,
+              user_name: skill.user_name,
+              user_id: skill.user_id,
             };
             newSkillList.push(updatedSkill);
           }
@@ -268,6 +270,7 @@ function App() {
           placeholder={"Enter a username..."}
           userNames={userNames}
           fetchOneUserByUserName={fetchOneUserByUserName}
+          timeoutNav={timeoutNav}
         ></SearchBar>
       )}
       <UserContext.Provider value={loggedUser}>
@@ -279,6 +282,7 @@ function App() {
               <UserDashboard
                 getLoggedInUserSkills={getLoggedInUserSkills}
                 addSkillCallbackFunc={addSkill}
+                updateSkillCallbackFunc={updateSkill}
                 deleteSkillCallbackFunc={deleteSkill}
                 skills={allSkills}
               />
@@ -291,6 +295,7 @@ function App() {
               <SkillBoard
                 skills={allSkills}
                 deleteSkillCallbackFunc={deleteSkill}
+                updateSkillCallbackFunc={updateSkill}
               />
             }
           />
