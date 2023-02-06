@@ -1,27 +1,29 @@
-import { React, useState } from "react";
+import { React } from "react";
 import "./UserProfile.css";
 import PropTypes from "prop-types";
+import SkillBoard from "../skill_components/SkillBoard";
 
 const UserProfile = (props) => {
-  const id = props.id;
-  const userName = props.user_name;
-  const firstName = props.first_name;
-  const lastName = props.last_name;
-  const city = props.city;
-  const profileDescription = props.profile_description;
+  const selectedUser = props.selectedUser
+  const getSpecificUserSkills = props.getSpecificUserSkills
+
+  const selectedUserSkills = getSpecificUserSkills(selectedUser.id)
 
   return (
     <div>
       <ul>
-        <li>ID: {id}</li>
-        <li>User Name: {userName}</li>
-        <li>First Name: {firstName}</li>
-        <li>Last Name: {lastName}</li>
-        <li>City: {city}</li>
+        {/* <li>ID: {id}</li> */}
+        <li>User Name: {selectedUser.user_name}</li>
+        <li>First Name: {selectedUser.first_name}</li>
+        <li>Last Name: {selectedUser.last_name}</li>
+        <li>City: {selectedUser.city}</li>
         <li>
-          Profile Description: {profileDescription} {console.log(props)}
+          Profile Description: {selectedUser.profile_desc}
         </li>
       </ul>
+      <SkillBoard
+              skills={selectedUserSkills}
+            />
     </div>
   );
 };

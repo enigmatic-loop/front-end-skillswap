@@ -18,7 +18,7 @@ export const UserContext = createContext(null);
 function App() {
   //STATE VARIABLES
   const [userNames, setUserNames] = useState([]);
-  const [user, setUser] = useState({});
+  const [selectedUser, setselectedUser] = useState({});
   const [loggedUser, setLoggedUser] = useState({});
   const [allUsers, setAllUsers] = useState([]);
 
@@ -89,7 +89,7 @@ function App() {
       .get(`${URL}/users/username/${userName}`)
       .then((res) => {
         // console.log(res.data.user);
-        setUser(res.data.user);
+        setselectedUser(res.data.user);
         // console.log("user state: " + JSON.stringify(user));
       })
       .catch((error) => {
@@ -225,14 +225,14 @@ function App() {
 
   useEffect(fetchAllSkills, []);
 
-  const getLoggedInUserSkills = (userId) => {
-    const loggedInUserSkills = [];
+  const getSpecificUserSkills = (userId) => {
+    const specificUserSkills = [];
     for (const skill of allSkills) {
       if (skill.user_id === userId) {
-        loggedInUserSkills.push(skill);
+        specificUserSkills.push(skill);
       }
     }
-    return loggedInUserSkills;
+    return specificUserSkills;
   };
 
   const addSkill = (newSkillInfo) => {
@@ -240,9 +240,66 @@ function App() {
       .post(`${URL}/skills`, newSkillInfo)
       .then((res) => {
         console.log("axios response: ", res);
+        const newSkills = [...allSkills];
+        const newSkillJSON = {
+          ...newSkillInfo,
+        };
+        newSkills.push(newSkillJSON);
+        setAllSkills(newSkills);
+        fetchAllSkills();
       })
       .catch((error) => {
         console.log("axios .catch error: ", error);
+      });
+  };
+
+  const deleteSkill = (skillId) => {
+    axios
+      .delete(`${URL}/skills/${skillId}`)
+      .then(() => {
+        const newSkillList = [];
+        let deletedSkillName = "";
+        for (const skill of allSkills) {
+          if (skill.id !== skillId) {
+            newSkillList.push(skill);
+          } else {
+            deletedSkillName = skill.name;
+          }
+        }
+        setAllSkills(newSkillList);
+        alert(`${deletedSkillName} skill succesfully deleted`);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  //allows update skill to run more than once
+  const updateSkill = (skillId, updatedSkillInfo) => {
+    axios
+      .patch(`${URL}/skills/${skillId}/update_skill`, updatedSkillInfo)
+      .then(() => {
+        const newSkillList = [];
+        for (const skill of allSkills) {
+          if (skill.id !== skillId) {
+            newSkillList.push(skill);
+          } else {
+            const updatedSkill = {
+              name: updatedSkillInfo.name,
+              description: updatedSkillInfo.description,
+              time: updatedSkillInfo.time,
+              tags: updatedSkillInfo.tags,
+              user_name: skill.user_name,
+              user_id: skill.user_id,
+            };
+            newSkillList.push(updatedSkill);
+          }
+        }
+        setAllSkills(newSkillList);
+        fetchAllSkills();
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -261,6 +318,7 @@ function App() {
           placeholder={"Enter a username..."}
           userNames={userNames}
           fetchOneUserByUserName={fetchOneUserByUserName}
+          timeoutNav={timeoutNav}
         ></SearchBar>
       )}
       <UserContext.Provider value={loggedUser}>
@@ -270,18 +328,32 @@ function App() {
             path="/home"
             element={
               <UserDashboard
-                getLoggedInUserSkills={getLoggedInUserSkills}
+                getSpecificUserSkills={getSpecificUserSkills}
                 addSkillCallbackFunc={addSkill}
+                updateSkillCallbackFunc={updateSkill}
+                deleteSkillCallbackFunc={deleteSkill}
                 skills={allSkills}
                 kickOutCallbackFunc={kickOut}
               />
             }
           />
-          <Route path="/userprofile" element={<UserProfile />} />
+          <Route
+            path="/userprofile"
+            element={
+              <UserProfile
+                selectedUser={selectedUser}
+                getSpecificUserSkills={getSpecificUserSkills}
+              />
+            }
+          />
           <Route
             path="/skills"
             element={
-              <SkillBoard skills={allSkills} addSkillCallbackFunc={addSkill} />
+              <SkillBoard
+                skills={allSkills}
+                deleteSkillCallbackFunc={deleteSkill}
+                updateSkillCallbackFunc={updateSkill}
+              />
             }
           />
           <Route

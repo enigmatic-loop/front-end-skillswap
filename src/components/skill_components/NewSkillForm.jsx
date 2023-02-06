@@ -14,11 +14,12 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
     name: "",
     description: "",
     time: 0,
-    tags: null,
+    tags: [],
+    user_name: loggedUser.user_name,
     user_id: loggedUser.id,
   });
 
-  const [tagsState, setTagsState] = useState([])
+  // const [tagsState, setTagsState] = useState([])
 
   const onSkillNameChange = (e) => {
 		setNewSkillFormFields({
@@ -41,23 +42,15 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
 		});
 	};
 
-	const onTagChange = (e) => {
-    const tagsValue = e.target.value
-    // console.log(tagsValue)
-		setNewSkillFormFields({
-			...newSkillFormFields,
-			tags: tagsValue,
-		});
-	};
-
   const addTags = (e) => {
     if (e.key === "Enter") {
-      console.log(e.target.value)
-      setTagsState([...tagsState, e.target.value])
-      console.log(tagsState)
+      setNewSkillFormFields({
+        ...newSkillFormFields,
+        tags: [...newSkillFormFields.tags, e.target.value],
+      });
       e.target.value = ""
+    };
     }
-  }
 
   // const removeTag = (tagIndex) => {}
 
@@ -66,11 +59,9 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
       e.preventDefault()
     };
   }
+
   const onSubmit = (e) => {
 		e.preventDefault();
-    // setNewSkillFormFields({...newSkillFormFields, tags: tagsState})
-    // console.log(`Tag state: ${tagsState}`)
-    // console.log(newSkillFormFields.tags)
 		addSkillCallbackFunc(newSkillFormFields);
 	};
 
@@ -102,13 +93,11 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
       <div>
         <section>Tags: 
         <ul>
-          {tagsState.map((tag, index) => {
+          {newSkillFormFields.tags.map((tag, index) => {
               return (<li key={index}>{tag}</li>)})
           }
         </ul>
         <input name="tags" 
-          // value={newSkillFormFields.tags}
-          onChange={onTagChange}
           type="text" 
           placeholder="enter tag(s)..." 
           onKeyUp={addTags}/></section>
