@@ -10,7 +10,17 @@ import { UserContext } from "../../App";
 // "user_name": self.user_name,
 // "user_id": self.user_id,
 
-const Skill = ({id, name, tags, description, time, userId, userName, deleteSkillCallbackFunc, updateSkillCallbackFunc}) => {
+const Skill = ({
+    id, 
+    name, 
+    tags, 
+    description, 
+    time, 
+    userId, 
+    userName, 
+    deleteSkillCallbackFunc, 
+    updateSkillCallbackFunc, 
+  }) => {
   const loggedUser = useContext(UserContext)
   const [editSkill, setEditSkill] = useState(false);
   const [updatedSkillFormFields, setUpdatedSkillFormFields] = useState({
@@ -21,7 +31,8 @@ const Skill = ({id, name, tags, description, time, userId, userName, deleteSkill
     user_name: loggedUser.user_name,
     user_id: loggedUser.id,
   });
-  const [tagsState, setTagsState] = useState([])
+
+  console.log(tags)
 
   const toggleEditSkill = () => {
     setEditSkill(!editSkill)
@@ -30,13 +41,6 @@ const Skill = ({id, name, tags, description, time, userId, userName, deleteSkill
   const removeOwnedSkill = () => {
     deleteSkillCallbackFunc(id);
   };
-  // const skillInfo = {
-  //   id:{id},
-  //   name:{name},
-  //   description:{description},
-  //   time:{time},
-  //   tags:{tags}
-  // }
 
   // FORM FUNCTIONS
   const onSkillNameChange = (e) => {
@@ -60,20 +64,12 @@ const Skill = ({id, name, tags, description, time, userId, userName, deleteSkill
 		});
 	};
 
-	const onTagChange = (e) => {
-    const tagsValue = e.target.value
-    // console.log(tagsValue)
-		setUpdatedSkillFormFields({
-			...updatedSkillFormFields,
-			tags: tagsValue,
-		});
-	};
-
   const addTags = (e) => {
     if (e.key === "Enter") {
-      // console.log(e.target.value)
-      setTagsState([...tagsState, e.target.value])
-      console.log(tagsState)
+      setUpdatedSkillFormFields({
+        ...updatedSkillFormFields,
+        tags: [...updatedSkillFormFields.tags, e.target.value],
+      });
       e.target.value = ""
     }
   }
@@ -94,14 +90,20 @@ const Skill = ({id, name, tags, description, time, userId, userName, deleteSkill
       <ul key={id}>
         { !editSkill && (
           <div>
-          <li>Skill: {name}</li>
-          <li>Description: {description}</li>
-          <li>Time: {time}</li>
-          <li>Tags: {tags}</li>
-          <li>Owned By: {userName}</li>
+            <li>Skill: {name}</li>
+            <li>Description: {description}</li>
+            <li>Time: {time}</li>
+            <li>Tags:</li>
+              <ul>
+                {tags && (
+                  updatedSkillFormFields.tags.map((tag, index) => {
+                    return (<li key={index}>{tag}</li>)})
+                )}
+              </ul>
+            <li>Owned By: {userName}</li>
           </div>)}
         { editSkill && (
-          <form onSubmit={onSubmit} onKeyDown={preventEnterSubmit}>
+          <form onSubmit={onSubmit} onKeyDown={preventEnterSubmit} >
           <legend>Update Skill</legend>
           <div>
             <p>Name: 
@@ -128,13 +130,11 @@ const Skill = ({id, name, tags, description, time, userId, userName, deleteSkill
           <div>
             <section>Tags: 
             <ul>
-              {tagsState.map((tag, index) => {
+              {updatedSkillFormFields.tags.map((tag, index) => {
                   return (<li key={index}>{tag}</li>)})
               }
             </ul>
-            <input name="tags" 
-              // value={newSkillFormFields.tags}
-              onChange={onTagChange}
+            <input name="tags"
               type="text" 
               placeholder="enter tag(s)..." 
               onKeyUp={addTags}/></section>

@@ -2,7 +2,7 @@ import { React } from "react";
 import Skill from "./Skill";
 import PropTypes from "prop-types";
 
-const SkillBoard = ({ skills, deleteSkillCallbackFunc, updateSkillCallbackFunc }) => {
+const SkillBoard = ({ skills, deleteSkillCallbackFunc, updateSkillCallbackFunc, getLoggedInUserSkillsCallback }) => {
   const skillComponents = [];
   if (skills) {
     for (const skill of skills) {
