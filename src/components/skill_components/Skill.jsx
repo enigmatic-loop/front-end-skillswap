@@ -66,10 +66,17 @@ const Skill = ({
 
   const addTags = (e) => {
     if (e.key === "Enter") {
+      if (tags) {
       setUpdatedSkillFormFields({
         ...updatedSkillFormFields,
         tags: [...updatedSkillFormFields.tags, e.target.value],
-      });
+      })}
+      else {
+      setUpdatedSkillFormFields({
+        ...updatedSkillFormFields,
+        tags: [e.target.value],
+      })
+      }
       e.target.value = ""
     }
   }
@@ -130,9 +137,9 @@ const Skill = ({
           <div>
             <section>Tags: 
             <ul>
-              {updatedSkillFormFields.tags.map((tag, index) => {
-                  return (<li key={index}>{tag}</li>)})
-              }
+              {tags && (updatedSkillFormFields.tags.map((tag, index) => {
+                return (<li key={index}>{tag}</li>)})
+              )}
             </ul>
             <input name="tags"
               type="text" 
