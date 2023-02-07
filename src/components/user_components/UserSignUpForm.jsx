@@ -6,6 +6,7 @@ const UserSignUpForm = (props) => {
 	const addUserCallbackFunc = props.addUserCallbackFunc
 	const responseMsg = props.responseMsg
 	const kickOut = props.kickOutCallbackFunc(googleUser)
+	// add kick out for logged in user
 
 	// we would like to populate firstName, and lastName in INITIAL_FORM_DATA with googleUser.given_name and googleUser.family_name
 	// requires check for required fields

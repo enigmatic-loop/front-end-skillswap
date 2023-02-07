@@ -17,10 +17,14 @@ export const UserContext = createContext(null);
 
 function App() {
   //STATE VARIABLES
+  //user variables
   const [userNames, setUserNames] = useState([]);
   const [selectedUser, setselectedUser] = useState({});
   const [loggedUser, setLoggedUser] = useState({});
   const [allUsers, setAllUsers] = useState([]);
+
+  //ƒgeneral variables
+  const [responseMsg, setResponseMsg] = useState("");
 
   //google login stuff
 
@@ -61,8 +65,6 @@ function App() {
   }, []);
 
   // GENERAL FUNCTIONS
-  const [responseMsg, setResponseMsg] = useState("");
-
   const navigate = useNavigate();
 
   //timer navigation function
@@ -82,7 +84,7 @@ function App() {
 
   // USER FUNCTIONS
 
-  const URL = "http://localhost:5000";
+  const URL = process.env.REACT_APP_BACKEND_URL;
 
   const fetchOneUserByUserName = (userName) => {
     axios
@@ -138,6 +140,7 @@ function App() {
         setResponseMsg(JSON.parse(res.request.response).details);
         // console.log("axios response: ", res); //delete me
         validateLogin(googleUser);
+        setResponseMsg("");
         alert(
           `Account Created. Welcome to SkillSwap, ${newUserInfo.user_name}!`
         );
