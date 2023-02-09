@@ -54,13 +54,10 @@ const SearchBar = ({ placeholder, userNames, fetchOneUserByUserName, timeoutNav 
                 onClick={() => {
                   fetchOneUserByUserName(username);
                   timeoutNav("/userprofile", 500)
-                }}
-              >
-                {" "}
-                {username}{" "}
+                }}>
+                {" "}{username}{" "}
               </div>
             );
-            // return <a className="user_item" href="value.user_profile_link" target="_blank"> {value.user_name} </a>;
           })}
         </div>
       )}

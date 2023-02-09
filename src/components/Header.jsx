@@ -28,6 +28,9 @@ const Header = (props) => {
 			<li>
 				<Link to="updateprofile" smooth="true">update profile</Link>
 			</li>
+			<li>
+				<Link to="trade" smooth="true">trade page</Link>
+			</li>
 		</ul>
 	)
 }

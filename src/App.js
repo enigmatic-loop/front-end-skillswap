@@ -12,18 +12,30 @@ import SearchBar from "./components/SearchBar";
 import Header from "./components/Header";
 import LandingPage from "./components/LandingPage";
 import SkillBoard from "./components/skill_components/SkillBoard";
+import TradePage from "./components/trade_components/TradePage";
 
 export const UserContext = createContext(null);
 
 function App() {
+  const URL = process.env.REACT_APP_BACKEND_URL;
   //STATE VARIABLES
   //user variables
   const [userNames, setUserNames] = useState([]);
-  const [selectedUser, setselectedUser] = useState({});
+  const [selectedUser, setSelectedUser] = useState({});
   const [loggedUser, setLoggedUser] = useState({});
   const [allUsers, setAllUsers] = useState([]);
 
-  //ƒgeneral variables
+  //skill variables
+  const [allSkills, setAllSkills] = useState([]);
+  const [selectedSkill, setSelectedSkill] = useState({});
+  const [loggedUserSkillNames, setLoggedUserSkillNames] = useState([]);
+
+  //trade variables
+  const [recipTradeObj, setRecipTradeObj] = useState({});
+  // const [recipUserSkillInfo, setRecipUserSkillInfo] = useState({});
+  // const [sendUserSkillInfo, setSendUserSkillInfo] = useState({});
+
+  //general variables
   const [responseMsg, setResponseMsg] = useState("");
 
   //google login stuff
@@ -33,8 +45,8 @@ function App() {
   function handleGoogleCallbackResponse(response) {
     // console.log("JWT encoded token: " + response.credential); //delete me
     let userObject = jwt_decode(response.credential);
-    console.log("google response: ", userObject); //delete me
-    console.log(userObject.email);
+    // console.log("google response: ", userObject); //delete me
+    // console.log(userObject.email);
     setGoogleUser(userObject);
     // console.log("validate login: ", loggedUser); //delete me
     document.getElementById("signInDiv").hidden = true;
@@ -84,14 +96,12 @@ function App() {
 
   // USER FUNCTIONS
 
-  const URL = process.env.REACT_APP_BACKEND_URL;
-
   const fetchOneUserByUserName = (userName) => {
     axios
       .get(`${URL}/users/username/${userName}`)
       .then((res) => {
         // console.log(res.data.user);
-        setselectedUser(res.data.user);
+        setSelectedUser(res.data.user);
         // console.log("user state: " + JSON.stringify(user));
       })
       .catch((error) => {
@@ -118,18 +128,6 @@ function App() {
         console.log(error);
       });
   };
-
-  // const fetchOneUserById = (userId) => {
-  //   axios
-  //     .get(`${URL}/users/${userId}`)
-  //     .then((res) => {
-  //       console.log(res.data.user.user_name);
-  //       return res.data.user.user_name;
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
 
   useEffect(fetchAllUserNames, []);
 
@@ -159,13 +157,13 @@ function App() {
       axios
         .get(`${URL}/users/email/${googleObj.email}`)
         .then((res) => {
-          console.log(".then conditional activated!");
-          console.log("axios response: ", res); //delete me
+          // console.log(".then conditional activated!");
+          // console.log("axios response: ", res); //delete me
           if (
             googleObj.email_verified === true &&
             googleObj.email === res.data.user.email
           ) {
-            console.log("aaaaaaaaaaa", res.data.user); //delete me
+            // console.log("aaaaaaaaaaa", res.data.user); //delete me
             setLoggedUser(res.data.user);
             timeoutNav("/home", 100);
           } else {
@@ -209,7 +207,6 @@ function App() {
   };
 
   // SKILL FUNCTIONS
-  const [allSkills, setAllSkills] = useState([]);
 
   const fetchAllSkills = () => {
     axios
@@ -227,6 +224,17 @@ function App() {
   };
 
   useEffect(fetchAllSkills, []);
+
+  const fetchOneSkillBySkillId = (skillId) => {
+    axios
+      .get(`${URL}/skills/${skillId}`)
+      .then((res) => {
+        setSelectedSkill(res.data.skill);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const getSpecificUserSkills = (userId) => {
     const specificUserSkills = [];
@@ -277,7 +285,6 @@ function App() {
       });
   };
 
-  //allows update skill to run more than once
   const updateSkill = (skillId, updatedSkillInfo) => {
     axios
       .patch(`${URL}/skills/${skillId}/update_skill`, updatedSkillInfo)
@@ -305,6 +312,21 @@ function App() {
         console.log(err);
       });
   };
+
+  // TRADE FUNCTIONS
+
+  const storeRecipSkill = (id) => {
+    const skillObj = fetchOneSkillBySkillId(id);
+    console.log("I'M IN SENDSKILLOBJ AAAAAAAAAA");
+    console.log("skillObj", skillObj);
+    console.log("id", id);
+  };
+
+  console.log(recipTradeObj);
+  console.log("Selected Skill: ", selectedSkill);
+  // const addTrade = (recipSkillInfo) => {
+  //   setRecipUserSkillInfo(recipSkillInfo);
+  // };
 
   return (
     <div className="App">
@@ -356,6 +378,7 @@ function App() {
                 skills={allSkills}
                 deleteSkillCallbackFunc={deleteSkill}
                 updateSkillCallbackFunc={updateSkill}
+                storeRecipSkillCallbackFunc={storeRecipSkill}
               />
             }
           />
@@ -381,10 +404,20 @@ function App() {
               />
             }
           />
+          <Route
+            path="/trade"
+            element={
+              <TradePage
+                responseMsg={responseMsg}
+                kickOutCallbackFunc={kickOut}
+                // addTradeCallbackFunc={addTrade}
+                getSpecificUserSkillsCallbackFunc={getSpecificUserSkills}
+                recipTradeObj={recipTradeObj}
+              />
+            }
+          />
         </Routes>
       </UserContext.Provider>
-      {/* user profile will load to new page */}
-      {/* <UserProfile profile={googleUser}></UserProfile> */}
     </div>
   );
 }

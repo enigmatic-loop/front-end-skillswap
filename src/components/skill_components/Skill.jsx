@@ -19,8 +19,10 @@ const Skill = ({
     userId, 
     userName, 
     deleteSkillCallbackFunc, 
-    updateSkillCallbackFunc, 
+    updateSkillCallbackFunc,
+    storeRecipSkillCallbackFunc, 
   }) => {
+
   const loggedUser = useContext(UserContext)
   const [editSkill, setEditSkill] = useState(false);
   const [updatedSkillFormFields, setUpdatedSkillFormFields] = useState({
@@ -31,8 +33,6 @@ const Skill = ({
     user_name: loggedUser.user_name,
     user_id: loggedUser.id,
   });
-
-  console.log(tags)
 
   const toggleEditSkill = () => {
     setEditSkill(!editSkill)
@@ -91,6 +91,8 @@ const Skill = ({
 		e.preventDefault();
 		updateSkillCallbackFunc(id, updatedSkillFormFields);
 	};
+
+  // const sendSkillObj
 
   return (
     <div>
@@ -159,6 +161,13 @@ const Skill = ({
             <button onClick={toggleEditSkill}>
             Update Skill
             </button>)}
+          </div>
+        )}
+        {loggedUser.user_name !== userName && (
+          <div>
+            <button onClick={()=>storeRecipSkillCallbackFunc(id)}>
+            Swap
+            </button>
           </div>
         )}
       </ul>

@@ -16,7 +16,7 @@ const UserDashboard = ({
   const loggedUser = useContext(UserContext)
   const userSkills = getSpecificUserSkills(loggedUser.id)
   const kickOut = kickOutCallbackFunc(loggedUser)
-  console.log("UserContext: ",loggedUser)
+  // console.log("UserContext: ",loggedUser)
 
   useEffect(()=>kickOut, [])
 
@@ -31,6 +31,7 @@ const UserDashboard = ({
         <li>
           Profile Description: {loggedUser.profile_desc}
         </li>
+        <h3>My Skills</h3>
         <SkillBoard
               skills={userSkills}
               deleteSkillCallbackFunc={deleteSkillCallbackFunc}

@@ -2,7 +2,13 @@ import { React } from "react";
 import Skill from "./Skill";
 import PropTypes from "prop-types";
 
-const SkillBoard = ({ skills, deleteSkillCallbackFunc, updateSkillCallbackFunc, getLoggedInUserSkillsCallback }) => {
+const SkillBoard = ({ 
+  skills, 
+  deleteSkillCallbackFunc, 
+  updateSkillCallbackFunc, 
+  storeRecipSkillCallbackFunc,
+  }) => {
+
   const skillComponents = [];
   if (skills) {
     for (const skill of skills) {
@@ -18,6 +24,7 @@ const SkillBoard = ({ skills, deleteSkillCallbackFunc, updateSkillCallbackFunc, 
           tags={skill.tags}
           deleteSkillCallbackFunc={deleteSkillCallbackFunc}
           updateSkillCallbackFunc={updateSkillCallbackFunc}
+          storeRecipSkillCallbackFunc={storeRecipSkillCallbackFunc}
         />
       )
     }
@@ -29,7 +36,6 @@ const SkillBoard = ({ skills, deleteSkillCallbackFunc, updateSkillCallbackFunc, 
 
   return (
     <div>
-      <h1>Skills</h1>
       <ul>{skillComponents}</ul>
     </div>
   )

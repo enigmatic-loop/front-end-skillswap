@@ -1,23 +1,19 @@
 import { React, useState, useContext } from "react";
 import { UserContext } from "../../App";
 
-// "id": self.skill_id,
-// "name": self.name,
-// "tags": self.tags,
-// "description": self.description,
-// "time": self.time,
-// "user_id": self.user_id,
 
 const NewSkillForm = ({addSkillCallbackFunc}) => {
   const loggedUser = useContext(UserContext)
-  const [newSkillFormFields, setNewSkillFormFields] = useState({
+
+  const INITIAL_FORM_DATA = {
     name: "",
     description: "",
     time: 0,
     tags: [],
     user_name: loggedUser.user_name,
     user_id: loggedUser.id,
-  });
+  }
+  const [newSkillFormFields, setNewSkillFormFields] = useState(INITIAL_FORM_DATA);
 
   // const [tagsState, setTagsState] = useState([])
 
@@ -63,6 +59,7 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
   const onSubmit = (e) => {
 		e.preventDefault();
 		addSkillCallbackFunc(newSkillFormFields);
+    setNewSkillFormFields(INITIAL_FORM_DATA)
 	};
 
   return (
