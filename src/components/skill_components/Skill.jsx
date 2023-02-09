@@ -1,4 +1,4 @@
-import { React, useContext, useState } from "react";
+import { React, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { UserContext } from "../../App";
 
@@ -20,11 +20,13 @@ const Skill = ({
     userName, 
     deleteSkillCallbackFunc, 
     updateSkillCallbackFunc,
-    storeRecipSkillCallbackFunc, 
+    storeRecipSkillCallbackFunc,
+    loggedUserTrades,
   }) => {
 
   const loggedUser = useContext(UserContext)
   const [editSkill, setEditSkill] = useState(false);
+  const [hideSwapToggle, setHideSwapToggle] = useState(false)
   const [updatedSkillFormFields, setUpdatedSkillFormFields] = useState({
     name: name,
     description: description,
@@ -81,6 +83,14 @@ const Skill = ({
     }
   }
 
+  //   const removeTag = (tagIndex) => {
+  //   const newTagList = updatedSkillFormFields.tags.filter((tag, index) => index !== tagIndex)
+  //   setUpdatedSkillFormFields({
+  //     ...updatedSkillFormFields, 
+  //     tags: newTagList
+  //   })
+  // }
+
   const preventEnterSubmit = (e) => {
     if (e.key === "Enter") {
       e.preventDefault()
@@ -92,6 +102,18 @@ const Skill = ({
 		updateSkillCallbackFunc(id, updatedSkillFormFields);
 	};
 
+  // validates that user has not traded for skill, hides swap button if true
+  const validateSwap = (currentSkillId) => {
+    console.log('HI THIS IS LOGGED USER TRADES', loggedUserTrades)
+    if (loggedUserTrades) {
+      for (const trade of loggedUserTrades) {
+      if (trade.recip_skill === currentSkillId) {
+        setHideSwapToggle(true)
+      }
+    }}
+  }
+
+  useEffect(()=>validateSwap(id), [])
   // const sendSkillObj
 
   return (
@@ -140,7 +162,10 @@ const Skill = ({
             <section>Tags: 
             <ul>
               {tags && (updatedSkillFormFields.tags.map((tag, index) => {
-                return (<li key={index}>{tag}</li>)})
+                return (
+                  <li key={index}>{tag}</li>
+                  // {/* <button onClick={removeTag}>x</button> */}
+                )})
               )}
             </ul>
             <input name="tags"
@@ -163,12 +188,12 @@ const Skill = ({
             </button>)}
           </div>
         )}
-        {loggedUser.user_name !== userName && (
-          <div>
+        {loggedUser.user_name !== userName &&( hideSwapToggle === false && 
+          (<div>
             <button onClick={()=>storeRecipSkillCallbackFunc(id)}>
             Swap
             </button>
-          </div>
+          </div>)
         )}
       </ul>
     </div>

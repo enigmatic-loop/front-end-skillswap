@@ -7,6 +7,7 @@ const SkillBoard = ({
   deleteSkillCallbackFunc, 
   updateSkillCallbackFunc, 
   storeRecipSkillCallbackFunc,
+  loggedUserTrades,
   }) => {
 
   const skillComponents = [];
@@ -25,6 +26,7 @@ const SkillBoard = ({
           deleteSkillCallbackFunc={deleteSkillCallbackFunc}
           updateSkillCallbackFunc={updateSkillCallbackFunc}
           storeRecipSkillCallbackFunc={storeRecipSkillCallbackFunc}
+          loggedUserTrades={loggedUserTrades}
         />
       )
     }

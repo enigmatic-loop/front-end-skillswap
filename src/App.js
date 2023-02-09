@@ -28,12 +28,11 @@ function App() {
   //skill variables
   const [allSkills, setAllSkills] = useState([]);
   const [selectedSkill, setSelectedSkill] = useState({});
-  const [loggedUserSkillNames, setLoggedUserSkillNames] = useState([]);
+  // const [loggedUserSkillNames, setLoggedUserSkillNames] = useState([]);
 
   //trade variables
   const [recipTradeObj, setRecipTradeObj] = useState({});
-  // const [recipUserSkillInfo, setRecipUserSkillInfo] = useState({});
-  // const [sendUserSkillInfo, setSendUserSkillInfo] = useState({});
+  const [loggedUserTrades, setLoggedUserTrades] = useState([]);
 
   //general variables
   const [responseMsg, setResponseMsg] = useState("");
@@ -103,6 +102,7 @@ function App() {
         // console.log(res.data.user);
         setSelectedUser(res.data.user);
         // console.log("user state: " + JSON.stringify(user));
+        return res.data.user;
       })
       .catch((error) => {
         console.log(error);
@@ -152,19 +152,21 @@ function App() {
   };
 
   const validateLogin = (googleObj) => {
+    // NOTE - DEBUG - LoggedUser sent to sign up page briefly before sent to home
     try {
-      console.log("in validate login");
+      // console.log("in validate login"); //delete me
       axios
         .get(`${URL}/users/email/${googleObj.email}`)
         .then((res) => {
           // console.log(".then conditional activated!");
-          // console.log("axios response: ", res); //delete me
+          // console.log("axios response: ", res.data.user.id); //delete me
           if (
             googleObj.email_verified === true &&
             googleObj.email === res.data.user.email
           ) {
             // console.log("aaaaaaaaaaa", res.data.user); //delete me
             setLoggedUser(res.data.user);
+            fetchTradesById(res.data.user.id);
             timeoutNav("/home", 100);
           } else {
             timeoutNav("/", 100);
@@ -215,7 +217,7 @@ function App() {
         const skillResList = res.data.map((skill) => {
           return skill;
         });
-        // console.log(userNameResList);
+        // console.log(userNameResList); //delete me
         setAllSkills(skillResList);
       })
       .catch((error) => {
@@ -230,6 +232,7 @@ function App() {
       .get(`${URL}/skills/${skillId}`)
       .then((res) => {
         setSelectedSkill(res.data.skill);
+        fetchOneUserByUserName(res.data.skill.user_name);
       })
       .catch((error) => {
         console.log(error);
@@ -250,7 +253,7 @@ function App() {
     axios
       .post(`${URL}/skills`, newSkillInfo)
       .then((res) => {
-        console.log("axios response: ", res);
+        console.log("axios response: ", res); //delete me
         const newSkills = [...allSkills];
         const newSkillJSON = {
           ...newSkillInfo,
@@ -316,17 +319,41 @@ function App() {
   // TRADE FUNCTIONS
 
   const storeRecipSkill = (id) => {
-    const skillObj = fetchOneSkillBySkillId(id);
-    console.log("I'M IN SENDSKILLOBJ AAAAAAAAAA");
-    console.log("skillObj", skillObj);
-    console.log("id", id);
+    fetchOneSkillBySkillId(id);
+    timeoutNav("trade", 100);
   };
 
-  console.log(recipTradeObj);
-  console.log("Selected Skill: ", selectedSkill);
-  // const addTrade = (recipSkillInfo) => {
-  //   setRecipUserSkillInfo(recipSkillInfo);
-  // };
+  const addTrade = (newTradeObj) => {
+    // console.log("newTradeObj: ", newTradeObj);
+    axios
+      .post(`${URL}/trades`, newTradeObj)
+      .then((res) => {
+        console.log("axios response: ", res); // delete me
+        setLoggedUserTrades([...loggedUserTrades, newTradeObj]);
+        alert("Skills succesfully swapped!");
+        timeoutNav("userprofile", 100);
+      })
+      .catch((error) => {
+        setResponseMsg(JSON.parse(error.request.response).details);
+        console.log("axios .catch error: ", error); // delete me
+      });
+  };
+
+  const fetchTradesById = (userId) => {
+    axios
+      .get(`${URL}/trades/${userId}`)
+      .then((res) => {
+        console.log("RESPONSE,,,,,,", res); //delete me
+        const tradesResList = res.data.map((trade) => {
+          return trade;
+        });
+        console.log("THIS SHOULD HAVE USERS TRADES", tradesResList);
+        setLoggedUserTrades(tradesResList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="App">
@@ -368,6 +395,8 @@ function App() {
               <UserProfile
                 selectedUser={selectedUser}
                 getSpecificUserSkills={getSpecificUserSkills}
+                storeRecipSkillCallbackFunc={storeRecipSkill}
+                loggedUserTrades={loggedUserTrades}
               />
             }
           />
@@ -379,6 +408,7 @@ function App() {
                 deleteSkillCallbackFunc={deleteSkill}
                 updateSkillCallbackFunc={updateSkill}
                 storeRecipSkillCallbackFunc={storeRecipSkill}
+                loggedUserTrades={loggedUserTrades}
               />
             }
           />
@@ -410,9 +440,10 @@ function App() {
               <TradePage
                 responseMsg={responseMsg}
                 kickOutCallbackFunc={kickOut}
-                // addTradeCallbackFunc={addTrade}
                 getSpecificUserSkillsCallbackFunc={getSpecificUserSkills}
                 recipTradeObj={recipTradeObj}
+                selectedSkill={selectedSkill}
+                addTradeCallbackFunc={addTrade}
               />
             }
           />

@@ -48,7 +48,13 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
     };
     }
 
-  // const removeTag = (tagIndex) => {}
+  // const removeTag = (tagIndex) => {
+  //   const newTagList = newSkillFormFields.tags.filter((tag, index) => index !== tagIndex)
+  //   setNewSkillFormFields({
+  //     ...newSkillFormFields, 
+  //     tags: newTagList
+  //   })
+  // }
 
   const preventEnterSubmit = (e) => {
     if (e.key === "Enter") {
@@ -91,7 +97,10 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
         <section>Tags: 
         <ul>
           {newSkillFormFields.tags.map((tag, index) => {
-              return (<li key={index}>{tag}</li>)})
+            return (
+              <li key={index}>{tag}</li>
+              // {/* <button onClick={removeTag}>x</button> */}
+            )})
           }
         </ul>
         <input name="tags" 

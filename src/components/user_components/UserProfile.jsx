@@ -6,6 +6,8 @@ import SkillBoard from "../skill_components/SkillBoard";
 const UserProfile = (props) => {
   const selectedUser = props.selectedUser
   const getSpecificUserSkills = props.getSpecificUserSkills
+  const storeRecipSkillCallbackFunc = props.storeRecipSkillCallbackFunc
+  const loggedUserTrades = props.loggedUserTrades
 
   const selectedUserSkills = getSpecificUserSkills(selectedUser.id)
 
@@ -21,9 +23,10 @@ const UserProfile = (props) => {
           Profile Description: {selectedUser.profile_desc}
         </li>
       </ul>
-      <SkillBoard
-              skills={selectedUserSkills}
-            />
+      <SkillBoard 
+        skills={selectedUserSkills} 
+        storeRecipSkillCallbackFunc={storeRecipSkillCallbackFunc} 
+        loggedUserTrades={loggedUserTrades}/>
     </div>
   );
 };
