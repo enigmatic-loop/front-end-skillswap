@@ -3,13 +3,14 @@ import { UserContext } from "../../App";
 import "./TradePage.css";
 
 const TradePage = (props) => {
-  // SET CURRENT USER, TIMEOUT NAV IN APP ADDTRADE BACK TO CURRENT USER PROFILE
+  // TURN INTO MODEL????????
 
   const loggedUser = useContext(UserContext)
   const loggedUserSkills= props.getSpecificUserSkillsCallbackFunc(loggedUser.id)
   const kickOut = props.kickOutCallbackFunc(loggedUser)
   const addTrade = props.addTradeCallbackFunc 
   const recipUserSelectedSkill = props.selectedSkill
+  const timeoutNav = props.timeoutNav
 
 	const INITIAL_FORM_DATA = {
 		send_user: loggedUser.id,
@@ -40,12 +41,30 @@ const TradePage = (props) => {
 				</div> 
 			)
 		})
+  
+  console.log("Logged User Skills: ", loggedUserSkills)
 
   return (
     <div>
-      <ul>{mappedSkillNames}</ul>
-      {newTradeFormFields.send_skill !== 0 &&
-      (<button onClick={()=>addTrade(newTradeFormFields)}>Submit</button>)}
+      {loggedUserSkills.length > 0 && (
+      <div>
+        <h3>Choose one of your skills to trade</h3>
+        <ul>{mappedSkillNames}</ul>
+		<h3>{recipUserSelectedSkill.user_name}'s skill:</h3>
+		<ul>
+			<li>Name: {recipUserSelectedSkill.name}</li>
+			<li>Time: {recipUserSelectedSkill.time}</li>
+			<li>Description: {recipUserSelectedSkill.description}</li>
+		</ul>
+        {newTradeFormFields.send_skill !== 0 &&
+        (<button onClick={()=>addTrade(newTradeFormFields)}>Submit</button>)}
+      </div>)}
+      {loggedUserSkills < 1 && (
+        <div>
+          <h3>You don't have any skills!</h3>
+          <div><p onClick={() => {timeoutNav("home", 100)}}>Click here</p> to add skills</div>
+        </div>
+      )}
     </div>
   )
 }

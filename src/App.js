@@ -444,6 +444,7 @@ function App() {
                 recipTradeObj={recipTradeObj}
                 selectedSkill={selectedSkill}
                 addTradeCallbackFunc={addTrade}
+                timeoutNav={timeoutNav}
               />
             }
           />
