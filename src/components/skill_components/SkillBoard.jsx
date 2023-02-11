@@ -32,10 +32,6 @@ const SkillBoard = ({
     }
   }
 
-  // if (!selectedUser) {
-  //   return;
-  // }
-
   return (
     <div>
       <ul>{skillComponents}</ul>

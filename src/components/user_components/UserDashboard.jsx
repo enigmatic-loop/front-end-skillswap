@@ -3,6 +3,7 @@ import { UserContext } from "../../App";
 import SkillBoard from "../skill_components/SkillBoard";
 import NewSkillForm from "../skill_components/NewSkillForm";
 import "./UserDashboard.css";
+import TradeList from "../trade_components/TradeList";
 
 
 const UserDashboard = ({ 
@@ -10,7 +11,11 @@ const UserDashboard = ({
     addSkillCallbackFunc, 
     kickOutCallbackFunc,
     deleteSkillCallbackFunc,
-    updateSkillCallbackFunc
+    updateSkillCallbackFunc,
+    loggedUserTrades,
+    selectedSkill,
+    fetchOneSkillBySkillIdCallbackFunc,
+    acceptDeclineTradeCallbackFunc
     }) => {
 
   const loggedUser = useContext(UserContext)
@@ -33,11 +38,19 @@ const UserDashboard = ({
         </li>
         <h3>My Skills</h3>
         <SkillBoard
-              skills={userSkills}
-              deleteSkillCallbackFunc={deleteSkillCallbackFunc}
-              updateSkillCallbackFunc={updateSkillCallbackFunc}
-            />
+          skills={userSkills}
+          deleteSkillCallbackFunc={deleteSkillCallbackFunc}
+          updateSkillCallbackFunc={updateSkillCallbackFunc}
+        />
         <NewSkillForm addSkillCallbackFunc={addSkillCallbackFunc} />
+        <h3>My Trades</h3>
+        <TradeList 
+          trades={loggedUserTrades}
+          userSkills={userSkills}
+          selectedSkill={selectedSkill}
+          fetchOneSkillBySkillIdCallbackFunc={fetchOneSkillBySkillIdCallbackFunc}
+          acceptDeclineTradeCallbackFunc={acceptDeclineTradeCallbackFunc}
+        />
       </ul>
     </div>
   )

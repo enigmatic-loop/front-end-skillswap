@@ -31,14 +31,13 @@ function App() {
   // const [loggedUserSkillNames, setLoggedUserSkillNames] = useState([]);
 
   //trade variables
-  const [recipTradeObj, setRecipTradeObj] = useState({});
   const [loggedUserTrades, setLoggedUserTrades] = useState([]);
+  const [otherUserSkillObj, setOtherUserSkillObj] = useState({});
 
   //general variables
   const [responseMsg, setResponseMsg] = useState("");
 
   //google login stuff
-
   const [googleUser, setGoogleUser] = useState({});
 
   function handleGoogleCallbackResponse(response) {
@@ -355,6 +354,22 @@ function App() {
       });
   };
 
+  const acceptDeclineTrade = (userId, tradeId) => {
+    // if user accepts then we send their ID through the patch toggle
+    // if user declines then we send other user ID through patch toggle
+    axios
+      .patch(`${URL}/trades/${tradeId}/${userId}/toggle_accept`)
+      .then((res) => {
+        setResponseMsg(JSON.parse(res.request.response).details);
+        // timeoutNav("/home", 500);
+        console.log("RESPONSE", res.data.trade);
+      })
+      .catch((error) => {
+        console.log(error); //delete me
+        setResponseMsg(JSON.parse(error.request.response).details);
+      });
+  };
+
   return (
     <div className="App">
       {/* google login API */}
@@ -384,8 +399,12 @@ function App() {
                 addSkillCallbackFunc={addSkill}
                 updateSkillCallbackFunc={updateSkill}
                 deleteSkillCallbackFunc={deleteSkill}
-                skills={allSkills}
+                skills={allSkills} //NOTE - Switch to get all skills by ID???
                 kickOutCallbackFunc={kickOut}
+                fetchOneSkillBySkillIdCallbackFunc={fetchOneSkillBySkillId}
+                selectedSkill={selectedSkill}
+                loggedUserTrades={loggedUserTrades}
+                acceptDeclineTradeCallbackFunc={acceptDeclineTrade}
               />
             }
           />
@@ -441,7 +460,6 @@ function App() {
                 responseMsg={responseMsg}
                 kickOutCallbackFunc={kickOut}
                 getSpecificUserSkillsCallbackFunc={getSpecificUserSkills}
-                recipTradeObj={recipTradeObj}
                 selectedSkill={selectedSkill}
                 addTradeCallbackFunc={addTrade}
                 timeoutNav={timeoutNav}
