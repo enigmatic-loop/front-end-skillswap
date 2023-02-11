@@ -31,7 +31,7 @@ function App() {
   // const [loggedUserSkillNames, setLoggedUserSkillNames] = useState([]);
 
   //trade variables
-  const [recipTradeObj, setRecipTradeObj] = useState({});
+  // const [recipTradeObj, setRecipTradeObj] = useState({});
   const [loggedUserTrades, setLoggedUserTrades] = useState([]);
 
   //general variables
@@ -441,7 +441,6 @@ function App() {
                 responseMsg={responseMsg}
                 kickOutCallbackFunc={kickOut}
                 getSpecificUserSkillsCallbackFunc={getSpecificUserSkills}
-                recipTradeObj={recipTradeObj}
                 selectedSkill={selectedSkill}
                 addTradeCallbackFunc={addTrade}
                 timeoutNav={timeoutNav}

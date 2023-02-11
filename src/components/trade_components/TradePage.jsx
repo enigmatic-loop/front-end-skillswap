@@ -3,7 +3,7 @@ import { UserContext } from "../../App";
 import "./TradePage.css";
 
 const TradePage = (props) => {
-  // TURN INTO MODEL????????
+  // TURN INTO MODAL????????
 
   const loggedUser = useContext(UserContext)
   const loggedUserSkills= props.getSpecificUserSkillsCallbackFunc(loggedUser.id)

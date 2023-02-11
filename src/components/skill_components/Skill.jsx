@@ -104,10 +104,11 @@ const Skill = ({
 
   // validates that user has not traded for skill, hides swap button if true
   const validateSwap = (currentSkillId) => {
-    // console.log('HI THIS IS LOGGED USER TRADES', loggedUserTrades) //delete me
+    console.log('HI THIS IS LOGGED USER TRADES', loggedUserTrades) //delete me
+    // BIG NOTE FOR FIDAY 2/10 - Update logic below to check for any combination of the recip_skill id and the send_skill id in the trades
     if (loggedUserTrades) {
       for (const trade of loggedUserTrades) {
-      if (trade.recip_skill === currentSkillId) {
+      if (trade.recip_skill === currentSkillId || trade.send_skill === currentSkillId) {
         setHideSwapToggle(true)
       }
     }}
