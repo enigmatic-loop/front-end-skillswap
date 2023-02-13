@@ -85,7 +85,7 @@ function App() {
   const kickOut = (obj) => {
     // Helper func - kicks user back to landing page if obj stored in obj parameter is empty
     if (Object.keys(obj).length === 0) {
-      timeoutNav("/", 100);
+      timeoutNav("/", 0);
     }
   };
 
@@ -139,35 +139,23 @@ function App() {
   };
 
   const validateLogin = (googleObj) => {
-    // NOTE - DEBUG - LoggedUser sent to sign up page briefly before sent to home
-    try {
-      // console.log("in validate login"); //delete me
-      axios
-        .get(`${URL}/users/email/${googleObj.email}`)
-        .then((res) => {
-          // console.log(".then conditional activated!");
-          // console.log("axios response: ", res.data.user.id); //delete me
-          if (
-            googleObj.email_verified === true &&
-            googleObj.email === res.data.user.email
-          ) {
-            // console.log("aaaaaaaaaaa", res.data.user); //delete me
-            setLoggedUser(res.data.user);
-            fetchLoggedUsersTradesById(res.data.user.id);
-            timeoutNav("/home", 100);
-          } else {
-            timeoutNav("/", 100);
-          }
-        })
-        .catch((error) => {
-          alert(JSON.parse(error.request.response).details);
-          timeoutNav("/", 500);
-        });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      timeoutNav("/signup", 100);
-    }
+    axios
+      .get(`${URL}/users/email/${googleObj.email}`)
+      .then((res) => {
+        if (
+          googleObj.email_verified === true &&
+          googleObj.email === res.data.user.email
+        ) {
+          setLoggedUser(res.data.user);
+          fetchLoggedUsersTradesById(res.data.user.id);
+          timeoutNav("/home", 100);
+        } else {
+          timeoutNav("/", 100);
+        }
+      })
+      .catch(() => {
+        timeoutNav("/signup", 100);
+      });
   };
 
   const updateUser = (updatedUserInfo) => {
@@ -400,8 +388,6 @@ function App() {
                 deleteSkillCallbackFunc={deleteSkill}
                 skills={allSkills} //NOTE - Switch to get all skills by ID???
                 kickOutCallbackFunc={kickOut}
-                fetchOneSkillBySkillIdCallbackFunc={fetchOneSkillBySkillId}
-                selectedSkill={selectedSkill}
                 loggedUserTrades={loggedUserTrades}
                 acceptDeclineTradeCallbackFunc={acceptDeclineTrade}
               />
@@ -415,6 +401,7 @@ function App() {
                 getSpecificUserSkills={getSpecificUserSkills}
                 storeRecipSkillCallbackFunc={storeRecipSkill}
                 loggedUserTrades={loggedUserTrades}
+                kickOutCallbackFunc={kickOut}
               />
             }
           />

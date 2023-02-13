@@ -4,8 +4,6 @@ import "./Trade.css";
 
 const Trade = (props) => {
   const loggedUser = useContext(UserContext)
-  const userSkills = props.userSkills
-  const otherUsersSkill = props.selectedSkill
   // trade param props
   const id = props.id
   const recipAccept = props.recipAccept // to be used for accept/decline functionality
@@ -18,15 +16,14 @@ const Trade = (props) => {
   const sendViewed = props.sendViewed // to be used for css to display what has been read
   const timeStamp = props.timeStamp
   //functions
-  const fetchOneSkillBySkillId = props.fetchOneSkillBySkillIdCallbackFunc
   const acceptDeclineTrade = props.acceptDeclineTrade
 
 	// NOTE - setting setSelectedSkill by passing get user by id and using that obj to display other user's user name and the skill name
   return (
     <div>
       <ul key={id}>
-        <li>Sent to: {recipUser} for {recipSkill.name}</li> 
-        <li>Sent from: {sendUser} offering {sendSkill.name}</li>
+        <li>Sent to: {recipSkill.user_name} for {recipSkill.name}</li> 
+        <li>Sent from: {sendSkill.user_name} offering {sendSkill.name}</li>
         <li>{timeStamp}</li>
         {(recipUser === loggedUser.id && recipAccept === false) && (
           <div>

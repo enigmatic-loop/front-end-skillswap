@@ -14,8 +14,6 @@ const UserDashboard = ({
     deleteSkillCallbackFunc,
     updateSkillCallbackFunc,
     loggedUserTrades,
-    selectedSkill,
-    fetchOneSkillBySkillIdCallbackFunc,
     acceptDeclineTradeCallbackFunc
     }) => {
 
@@ -47,10 +45,7 @@ const UserDashboard = ({
         <h3>My Trades</h3>
         <TradeList 
           loggedUserTrades={loggedUserTrades}
-          userSkills={userSkills}
-          selectedSkill={selectedSkill}
           allSkills={skills}
-          fetchOneSkillBySkillIdCallbackFunc={fetchOneSkillBySkillIdCallbackFunc}
           acceptDeclineTradeCallbackFunc={acceptDeclineTradeCallbackFunc}
         />
       </ul>

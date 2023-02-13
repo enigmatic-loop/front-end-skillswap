@@ -5,9 +5,6 @@ import "./TradeList.css";
 
 const TradeList = (props) => {
     const loggedUserTrades = props.loggedUserTrades
-    const selectedSkill = props.selectedSkill
-    const fetchOneSkillBySkillIdCallbackFunc = props.fetchOneSkillBySkillIdCallbackFunc
-    const userSkills = props.userSkills
     const allSkills = props.allSkills
     const acceptDeclineTrade = props.acceptDeclineTradeCallbackFunc
 
@@ -28,9 +25,6 @@ const TradeList = (props) => {
         sendUser={trade.send_user}
         sendViewed={trade.send_viewed}
         timeStamp={trade.time_stamp}
-        selectedSkill={selectedSkill}
-        fetchOneSkillBySkillIdCallbackFunc={fetchOneSkillBySkillIdCallbackFunc}
-        userSkills={userSkills}
         acceptDeclineTrade={acceptDeclineTrade}
       />)
     }

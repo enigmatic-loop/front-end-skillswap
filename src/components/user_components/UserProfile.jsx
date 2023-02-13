@@ -1,15 +1,21 @@
-import { React } from "react";
+import { React, useContext, useEffect } from "react";
 import "./UserProfile.css";
 import PropTypes from "prop-types";
+import { UserContext } from "../../App";
 import SkillBoard from "../skill_components/SkillBoard";
 
 const UserProfile = (props) => {
+  const loggedUser = useContext(UserContext)
   const selectedUser = props.selectedUser
+  const loggedUserTrades = props.loggedUserTrades
+  //functions
   const getSpecificUserSkills = props.getSpecificUserSkills
   const storeRecipSkillCallbackFunc = props.storeRecipSkillCallbackFunc
-  const loggedUserTrades = props.loggedUserTrades
+  const kickOut = props.kickOutCallbackFunc(loggedUser)
 
   const selectedUserSkills = getSpecificUserSkills(selectedUser.id)
+
+  useEffect(()=>kickOut, [])
 
   return (
     <div>
