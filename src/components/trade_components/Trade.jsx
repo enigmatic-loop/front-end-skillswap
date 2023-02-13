@@ -22,86 +22,21 @@ const Trade = (props) => {
   const acceptDeclineTrade = props.acceptDeclineTrade
 
 	// NOTE - setting setSelectedSkill by passing get user by id and using that obj to display other user's user name and the skill name
-  const [loggedUsersTradedSkill, setLoggedUsersTradedSkill] = useState({})
-
-  /* Conditional - checking to see if loggedUser is the recipiant or the sender
-  so that we can set the logged user's traded skill and the otherUsersSkill */
-  const identifyUsers = () => {
-    if (recipUser !== loggedUser.id) {
-      fetchOneSkillBySkillId(recipSkill)
-      for (const skill of userSkills) {
-        if (skill.id === sendSkill) {
-          setLoggedUsersTradedSkill(skill)
-        }
-      } 
-    } else if (sendUser !== loggedUser.id) {
-      fetchOneSkillBySkillId(sendSkill)
-      for (const skill of userSkills) {
-        if (skill.id === recipSkill) {
-          setLoggedUsersTradedSkill(skill)
-        }
-      }
-    }
-  }
-
-  const onSubmit = (userId, tradeId) => {
-    acceptDeclineTrade(userId, tradeId)
-  }
-
-  // console.log('otherUsersSkill', otherUsersSkill)
-
-  useEffect(identifyUsers, [])
-
-  /* Conditional - checks which user is the recip user and sending user, returns html which
-  displays which user sent the skill and which user recieved, and which skills weres sent and recieved. */
   return (
     <div>
-      {otherUsersSkill.id === recipSkill && (
-        <div>
-        <ul key={id}>
-          <li>Sent to: {otherUsersSkill.user_name} for {otherUsersSkill.name}</li> 
-          <li>Sent from: {loggedUser.user_name} offering {loggedUsersTradedSkill.name}</li>
-          <li>{timeStamp}</li>
-        </ul>
-      </div>
-      )}
-      {otherUsersSkill.id === sendSkill && (
-      <div>
-        <ul key={id}>
-          <li>Sent to: {loggedUser.user_name} for {loggedUsersTradedSkill.name}</li> 
-          <li>Sent from: {otherUsersSkill.user_name} offering {otherUsersSkill.name}</li>
-          <li>{timeStamp}</li>
-          <button onClick={()=>onSubmit(recipUser, id)}>Accept</button>
-          <button onClick={()=>onSubmit(sendUser, id)}>Decline</button>
-        </ul>
-      </div>
-      )}
+      <ul key={id}>
+        <li>Sent to: {recipUser} for {recipSkill.name}</li> 
+        <li>Sent from: {sendUser} offering {sendSkill.name}</li>
+        <li>{timeStamp}</li>
+        {(recipUser === loggedUser.id && recipAccept === false) && (
+          <div>
+            <button onClick={()=>acceptDeclineTrade(recipUser, id)}>Accept</button>
+            <button onClick={()=>acceptDeclineTrade(sendUser, id)}>Decline</button>
+          </div>
+        )}
+      </ul>
     </div>
-  )
-  /*
-  if (otherUsersSkill.id === recipSkill) {
-    return (
-      <div>
-        <ul key={id}>
-          <li>Sent to: {otherUsersSkill.user_name} for {otherUsersSkill.name}</li> 
-          <li>Sent from: {loggedUser.user_name} offering {loggedUsersTradedSkill.name}</li>
-          <li>{timeStamp}</li>
-        </ul>
-      </div>
-    )
-  } else if (otherUsersSkill.id === sendSkill) { 
-    return (
-      <div>
-        <ul key={id}>
-          <li>Sent to: {loggedUser.user_name} for {loggedUsersTradedSkill.name}</li> 
-          <li>Sent from: {otherUsersSkill.user_name} offering {otherUsersSkill.name}</li>
-          <li>{timeStamp}</li>
-          <button onClick={()=>onSubmit(recipUser, id)}>Accept</button>
-          <button onClick={()=>onSubmit(sendUser, id)}>Decline</button>
-        </ul>
-      </div>
-    ) 
-  } */
+  ) 
 }
 
 export default Trade;

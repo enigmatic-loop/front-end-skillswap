@@ -26,7 +26,7 @@ const Skill = ({
 
   const loggedUser = useContext(UserContext)
   const [editSkill, setEditSkill] = useState(false);
-  const [hideSwapToggle, setHideSwapToggle] = useState(false)
+  // const [hideSwapToggle, setHideSwapToggle] = useState(false)
   const [updatedSkillFormFields, setUpdatedSkillFormFields] = useState({
     name: name,
     description: description,
@@ -103,20 +103,20 @@ const Skill = ({
 	};
 
   // validates that user has not traded for skill, hides swap button if true
-  const validateSwap = (currentSkillId) => {
-    // console.log('HI THIS IS LOGGED USER TRADES', loggedUserTrades) //delete me
-    // BIG NOTE FOR FIDAY 2/10 - Update logic below to check for any combination of the recip_skill id and the send_skill id in the trades
-    if (loggedUserTrades) {
-      console.log(loggedUserTrades)
-      for (const trade of loggedUserTrades) {
-        if (trade.recip_skill === currentSkillId) {
-          setHideSwapToggle(true)
-        }
-    }}
-  }
+  // const validateSwap = (currentSkillId) => {
+  //   // console.log('HI THIS IS LOGGED USER TRADES', loggedUserTrades) //delete me
+  //   // BIG NOTE FOR FIDAY 2/10 - Update logic below to check for any combination of the recip_skill id and the send_skill id in the trades
+  //   if (loggedUserTrades) {
+  //     console.log(loggedUserTrades)
+  //     for (const trade of loggedUserTrades) {
+  //       if (trade.recip_skill === currentSkillId) {
+  //         setHideSwapToggle(true)
+  //       }
+  //   }}
+  // }
   
 
-  useEffect(()=>validateSwap(id), [])
+  // useEffect(()=>validateSwap(id), []) // VALIDATE SWAP
   // const sendSkillObj
 
   return (
@@ -191,13 +191,19 @@ const Skill = ({
             </button>)}
           </div>
         )}
-        {loggedUser.user_name !== userName &&( hideSwapToggle === false && 
+        {loggedUser.user_name !== userName &&( <div>
+            <button onClick={()=>storeRecipSkillCallbackFunc(id)}>
+            Swap
+            </button>
+          </div>
+        )}
+        {/* {loggedUser.user_name !== userName &&( hideSwapToggle === false && 
           (<div>
             <button onClick={()=>storeRecipSkillCallbackFunc(id)}>
             Swap
             </button>
           </div>)
-        )}
+        )} */}
       </ul>
     </div>
   )

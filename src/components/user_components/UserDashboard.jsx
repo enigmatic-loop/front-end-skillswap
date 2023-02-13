@@ -9,6 +9,7 @@ import TradeList from "../trade_components/TradeList";
 const UserDashboard = ({ 
     getSpecificUserSkills, 
     addSkillCallbackFunc, 
+    skills,
     kickOutCallbackFunc,
     deleteSkillCallbackFunc,
     updateSkillCallbackFunc,
@@ -21,7 +22,7 @@ const UserDashboard = ({
   const loggedUser = useContext(UserContext)
   const userSkills = getSpecificUserSkills(loggedUser.id)
   const kickOut = kickOutCallbackFunc(loggedUser)
-  // console.log("UserContext: ",loggedUser)
+  console.log("UserContext: ",loggedUser)
 
   useEffect(()=>kickOut, [])
 
@@ -45,9 +46,10 @@ const UserDashboard = ({
         <NewSkillForm addSkillCallbackFunc={addSkillCallbackFunc} />
         <h3>My Trades</h3>
         <TradeList 
-          trades={loggedUserTrades}
+          loggedUserTrades={loggedUserTrades}
           userSkills={userSkills}
           selectedSkill={selectedSkill}
+          allSkills={skills}
           fetchOneSkillBySkillIdCallbackFunc={fetchOneSkillBySkillIdCallbackFunc}
           acceptDeclineTradeCallbackFunc={acceptDeclineTradeCallbackFunc}
         />

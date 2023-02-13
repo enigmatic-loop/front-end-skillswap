@@ -23,16 +23,13 @@ function App() {
   const [userNames, setUserNames] = useState([]);
   const [selectedUser, setSelectedUser] = useState({});
   const [loggedUser, setLoggedUser] = useState({});
-  const [allUsers, setAllUsers] = useState([]);
 
   //skill variables
   const [allSkills, setAllSkills] = useState([]);
   const [selectedSkill, setSelectedSkill] = useState({});
-  // const [loggedUserSkillNames, setLoggedUserSkillNames] = useState([]);
 
   //trade variables
   const [loggedUserTrades, setLoggedUserTrades] = useState([]);
-  const [otherUserSkillObj, setOtherUserSkillObj] = useState({});
 
   //general variables
   const [responseMsg, setResponseMsg] = useState("");
@@ -98,9 +95,7 @@ function App() {
     axios
       .get(`${URL}/users/username/${userName}`)
       .then((res) => {
-        // console.log(res.data.user);
         setSelectedUser(res.data.user);
-        // console.log("user state: " + JSON.stringify(user));
         return res.data.user;
       })
       .catch((error) => {
@@ -113,15 +108,9 @@ function App() {
       .get(`${URL}/users`)
       .then((res) => {
         const userNameResList = res.data.map((user) => {
-          // console.log(user);
           return user.user_name;
         });
         setUserNames(userNameResList);
-        const usersResList = res.data.map((user) => {
-          // console.log(user);
-          return user;
-        });
-        setAllUsers(usersResList);
       })
       .catch((error) => {
         console.log(error);
@@ -135,7 +124,6 @@ function App() {
       .post(`${URL}/users`, newUserInfo)
       .then((res) => {
         setResponseMsg(JSON.parse(res.request.response).details);
-        // console.log("axios response: ", res); //delete me
         validateLogin(googleUser);
         setResponseMsg("");
         alert(
@@ -165,7 +153,7 @@ function App() {
           ) {
             // console.log("aaaaaaaaaaa", res.data.user); //delete me
             setLoggedUser(res.data.user);
-            fetchTradesById(res.data.user.id);
+            fetchLoggedUsersTradesById(res.data.user.id);
             timeoutNav("/home", 100);
           } else {
             timeoutNav("/", 100);
@@ -252,7 +240,7 @@ function App() {
     axios
       .post(`${URL}/skills`, newSkillInfo)
       .then((res) => {
-        console.log("axios response: ", res); //delete me
+        // console.log("axios response: ", res); //delete me
         const newSkills = [...allSkills];
         const newSkillJSON = {
           ...newSkillInfo,
@@ -323,7 +311,6 @@ function App() {
   };
 
   const addTrade = (newTradeObj) => {
-    // console.log("newTradeObj: ", newTradeObj);
     axios
       .post(`${URL}/trades`, newTradeObj)
       .then((res) => {
@@ -338,15 +325,17 @@ function App() {
       });
   };
 
-  const fetchTradesById = (userId) => {
+  const fetchLoggedUsersTradesById = (userId) => {
+    console.log("fetchLoggedUsersTradesById");
+
     axios
       .get(`${URL}/trades/${userId}`)
       .then((res) => {
-        console.log("RESPONSE,,,,,,", res); //delete me
+        // console.log("RESPONSE,,,,,,", res); //delete me
         const tradesResList = res.data.map((trade) => {
           return trade;
         });
-        console.log("THIS SHOULD HAVE USERS TRADES", tradesResList);
+        // console.log("THIS SHOULD HAVE USERS TRADES", tradesResList); //delete me
         setLoggedUserTrades(tradesResList);
       })
       .catch((error) => {
@@ -357,16 +346,26 @@ function App() {
   const acceptDeclineTrade = (userId, tradeId) => {
     // if user accepts then we send their ID through the patch toggle
     // if user declines then we send other user ID through patch toggle
+    console.log("URL", `${URL}/trades/${tradeId}/${userId}/toggle_accept`);
     axios
       .patch(`${URL}/trades/${tradeId}/${userId}/toggle_accept`)
       .then((res) => {
-        setResponseMsg(JSON.parse(res.request.response).details);
-        // timeoutNav("/home", 500);
-        console.log("RESPONSE", res.data.trade);
+        let newLoggedUserTrades = [];
+        const newTradeJSON = {
+          ...res.data.trade,
+        };
+
+        for (const trade of loggedUserTrades) {
+          if (trade.id !== newTradeJSON.id) {
+            newLoggedUserTrades.push(trade);
+          }
+        }
+        newLoggedUserTrades.push(newTradeJSON);
+
+        setLoggedUserTrades(newLoggedUserTrades);
       })
       .catch((error) => {
-        console.log(error); //delete me
-        setResponseMsg(JSON.parse(error.request.response).details);
+        console.log(error);
       });
   };
 
