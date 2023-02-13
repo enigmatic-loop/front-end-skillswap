@@ -121,20 +121,20 @@ const Skill = ({
 
   return (
     <div>
-      <ul key={id}>
+      <li key={id}>
         { !editSkill && (
           <div>
-            <li>Skill: {name}</li>
-            <li>Description: {description}</li>
-            <li>Time: {time}</li>
-            <li>Tags:</li>
+            Skill: {name}
+            Time: {time} <br />
+            Description: {description} <br />
+            Tags:
               <ul>
                 {tags && (
                   updatedSkillFormFields.tags.map((tag, index) => {
                     return (<li key={index}>{tag}</li>)})
                 )}
               </ul>
-            <li>Owned By: {userName}</li>
+            Owned By: {userName}
           </div>)}
         { editSkill && (
           <form onSubmit={onSubmit} onKeyDown={preventEnterSubmit} >
@@ -204,7 +204,7 @@ const Skill = ({
             </button>
           </div>)
         )} */}
-      </ul>
+      </li>
     </div>
   )
 }

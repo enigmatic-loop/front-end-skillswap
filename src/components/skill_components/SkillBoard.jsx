@@ -34,7 +34,7 @@ const SkillBoard = ({
 
   return (
     <div>
-      <ul>{skillComponents}</ul>
+      <ul className="collection">{skillComponents}</ul>
     </div>
   )
 }

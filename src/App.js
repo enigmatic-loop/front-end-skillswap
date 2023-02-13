@@ -359,101 +359,110 @@ function App() {
 
   return (
     <div className="App">
-      {/* google login API */}
-      <div id="signInDiv"></div>
-      {Object.keys(loggedUser).length !== 0 && (
-        <button onClick={(e) => handleSignOut(e)}>Sign Out</button>
-      )}
-      {Object.keys(loggedUser).length !== 0 && (
-        <Header googleUser={googleUser}></Header>
-      )}
-      {Object.keys(loggedUser).length !== 0 && (
-        <SearchBar
-          placeholder={"Enter a username..."}
-          userNames={userNames}
-          fetchOneUserByUserName={fetchOneUserByUserName}
-          timeoutNav={timeoutNav}
-        ></SearchBar>
-      )}
-      <UserContext.Provider value={loggedUser}>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route
-            path="/home"
-            element={
-              <UserDashboard
-                getSpecificUserSkills={getSpecificUserSkills}
-                addSkillCallbackFunc={addSkill}
-                updateSkillCallbackFunc={updateSkill}
-                deleteSkillCallbackFunc={deleteSkill}
-                skills={allSkills} //NOTE - Switch to get all skills by ID???
-                kickOutCallbackFunc={kickOut}
-                loggedUserTrades={loggedUserTrades}
-                acceptDeclineTradeCallbackFunc={acceptDeclineTrade}
+      <div className="container">
+        <div className="col s12">
+          {/* google login API */}
+          <div id="signInDiv"></div>
+          {Object.keys(loggedUser).length !== 0 && (
+            <button onClick={(e) => handleSignOut(e)}>Sign Out</button>
+          )}
+          {Object.keys(loggedUser).length !== 0 && (
+            <div className="row">
+              <div className="col s12">
+                <Header googleUser={googleUser}></Header>
+              </div>
+            </div>
+          )}
+          {Object.keys(loggedUser).length !== 0 && (
+            <SearchBar
+              placeholder={"Enter a username..."}
+              userNames={userNames}
+              fetchOneUserByUserName={fetchOneUserByUserName}
+              timeoutNav={timeoutNav}
+            ></SearchBar>
+          )}
+          <UserContext.Provider value={loggedUser}>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route
+                path="/home"
+                element={
+                  <UserDashboard
+                    googleUser={googleUser}
+                    getSpecificUserSkills={getSpecificUserSkills}
+                    addSkillCallbackFunc={addSkill}
+                    updateSkillCallbackFunc={updateSkill}
+                    deleteSkillCallbackFunc={deleteSkill}
+                    skills={allSkills} //NOTE - Switch to get all skills by ID???
+                    kickOutCallbackFunc={kickOut}
+                    loggedUserTrades={loggedUserTrades}
+                    acceptDeclineTradeCallbackFunc={acceptDeclineTrade}
+                  />
+                }
               />
-            }
-          />
-          <Route
-            path="/userprofile"
-            element={
-              <UserProfile
-                selectedUser={selectedUser}
-                getSpecificUserSkills={getSpecificUserSkills}
-                storeRecipSkillCallbackFunc={storeRecipSkill}
-                loggedUserTrades={loggedUserTrades}
-                kickOutCallbackFunc={kickOut}
+              <Route
+                path="/userprofile"
+                element={
+                  <UserProfile
+                    selectedUser={selectedUser}
+                    getSpecificUserSkills={getSpecificUserSkills}
+                    storeRecipSkillCallbackFunc={storeRecipSkill}
+                    loggedUserTrades={loggedUserTrades}
+                    kickOutCallbackFunc={kickOut}
+                  />
+                }
               />
-            }
-          />
-          <Route
-            path="/skills"
-            element={
-              <SkillBoard
-                skills={allSkills}
-                deleteSkillCallbackFunc={deleteSkill}
-                updateSkillCallbackFunc={updateSkill}
-                storeRecipSkillCallbackFunc={storeRecipSkill}
-                loggedUserTrades={loggedUserTrades}
+              <Route
+                path="/skills"
+                element={
+                  <SkillBoard
+                    skills={allSkills}
+                    deleteSkillCallbackFunc={deleteSkill}
+                    updateSkillCallbackFunc={updateSkill}
+                    storeRecipSkillCallbackFunc={storeRecipSkill}
+                    loggedUserTrades={loggedUserTrades}
+                  />
+                }
               />
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <UserSignUpForm
-                googleUser={googleUser}
-                responseMsg={responseMsg}
-                addUserCallbackFunc={addUser}
-                validateLoginCallbackFunc={validateLogin}
-                kickOutCallbackFunc={kickOut}
+              <Route
+                path="/signup"
+                element={
+                  <UserSignUpForm
+                    googleUser={googleUser}
+                    responseMsg={responseMsg}
+                    addUserCallbackFunc={addUser}
+                    validateLoginCallbackFunc={validateLogin}
+                    kickOutCallbackFunc={kickOut}
+                  />
+                }
               />
-            }
-          />
-          <Route
-            path="/updateprofile"
-            element={
-              <UpdateProfileForm
-                updateUserCallbackFunc={updateUser}
-                responseMsg={responseMsg}
-                kickOutCallbackFunc={kickOut}
+              <Route
+                path="/updateprofile"
+                element={
+                  <UpdateProfileForm
+                    updateUserCallbackFunc={updateUser}
+                    responseMsg={responseMsg}
+                    kickOutCallbackFunc={kickOut}
+                  />
+                }
               />
-            }
-          />
-          <Route
-            path="/trade"
-            element={
-              <TradePage
-                responseMsg={responseMsg}
-                kickOutCallbackFunc={kickOut}
-                getSpecificUserSkillsCallbackFunc={getSpecificUserSkills}
-                selectedSkill={selectedSkill}
-                addTradeCallbackFunc={addTrade}
-                timeoutNav={timeoutNav}
+              <Route
+                path="/trade"
+                element={
+                  <TradePage
+                    responseMsg={responseMsg}
+                    kickOutCallbackFunc={kickOut}
+                    getSpecificUserSkillsCallbackFunc={getSpecificUserSkills}
+                    selectedSkill={selectedSkill}
+                    addTradeCallbackFunc={addTrade}
+                    timeoutNav={timeoutNav}
+                  />
+                }
               />
-            }
-          />
-        </Routes>
-      </UserContext.Provider>
+            </Routes>
+          </UserContext.Provider>
+        </div>
+      </div>
     </div>
   );
 }

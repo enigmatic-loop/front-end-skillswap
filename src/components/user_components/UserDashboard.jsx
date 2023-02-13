@@ -14,7 +14,8 @@ const UserDashboard = ({
     deleteSkillCallbackFunc,
     updateSkillCallbackFunc,
     loggedUserTrades,
-    acceptDeclineTradeCallbackFunc
+    acceptDeclineTradeCallbackFunc,
+    googleUser,
     }) => {
 
   const loggedUser = useContext(UserContext)
@@ -28,6 +29,7 @@ const UserDashboard = ({
     <div>
     <h3>home</h3>
       <ul>
+        <img src={googleUser.picture} alt="" className="circle"></img>
         <li>User Name: {loggedUser.user_name}</li>
         <li>First Name: {loggedUser.first_name}</li>
         <li>Last Name: {loggedUser.last_name}</li>
