@@ -57,7 +57,7 @@ const UpdateProfileForm = (props) => {
 	return (
 		<div className="container">
 			<form className="col s8" onSubmit={onSubmit}>
-					<legend>Update Profile</legend>
+					<legend className="title-center">Update Profile</legend>
 					<div>
 						<p><b>email: </b> {loggedUser.email}</p>
 					</div>
@@ -83,18 +83,22 @@ const UpdateProfileForm = (props) => {
 							</div>
 					</div>
 					<div>
-							<p><b>city: </b>
-							<input name="city" 
-								value={updateUserFormFields.city} 
-								placeholder="enter your city..."
-								onChange={onCityChange} /></p>
+							<b>city: </b>
+							<div>
+								<input name="city" 
+									value={updateUserFormFields.city} 
+									placeholder="enter your city..."
+									onChange={onCityChange} />
+							</div>
 					</div>
 					<div>
-							<p><b>about me: </b>
-							<input name="description" 
-								value={updateUserFormFields.profile_desc} 
-								placeholder="describe yourself..."
-								onChange={onDescriptionChange} /></p>
+							<b>about me: </b>
+							<div>
+								<input name="description" 
+									value={updateUserFormFields.profile_desc} 
+									placeholder="describe yourself..."
+									onChange={onDescriptionChange} />
+							</div>
 					</div>
 					<div>
 							<input type="submit" value="Update Profile" />
