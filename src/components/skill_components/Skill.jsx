@@ -119,8 +119,8 @@ const Skill = ({
           <div>
             <div className="med-text">{name} - {userName}</div> 
             <div className="small-text">Time: {time}</div>
-            <div className="small-text"><b>Description:</b> {description}</div>
-            <div className="small-text"><b>Tags:</b> <ul>
+            <div className="small-text">Description: {description}</div>
+            <div className="small-text">Tags: <ul>
                 {tags && (
                   updatedSkillFormFields.tags.map((tag, index) => {
                     return (<li key={index} className="horizontal-li">{tag}</li>)})
