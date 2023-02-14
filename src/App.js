@@ -383,6 +383,7 @@ function App() {
               userNames={userNames}
               fetchOneUserByUserName={fetchOneUserByUserName}
               timeoutNav={timeoutNav}
+              allSkills={allSkills}
             ></SearchBar>
           )}
           <UserContext.Provider value={loggedUser}>

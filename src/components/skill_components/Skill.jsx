@@ -124,6 +124,10 @@ const Skill = ({
     palette: {
       primary: {
         main: black
+      },
+      neutral: {
+        main: '#64748B',
+        contrastText: '#fff',
       }
     }
   })
@@ -134,7 +138,7 @@ const Skill = ({
         { !editSkill && (
           <div>
             <ThemeProvider theme={theme}>
-            <Button className="button" onClick={handleOpen}>{name} - {userName}</Button>
+            <Button color="neutral" onClick={handleOpen}>{name} - {userName}</Button>
               <Modal open={open} onClose={handleClose}>
                 <Box id="new-skill-modal" className="form-modal">
                   <div className="med-text">{name} - {userName}</div>
@@ -143,7 +147,12 @@ const Skill = ({
                   <div className="small-text">Tags: </div>
                     {tags && (
                       updatedSkillFormFields.tags.map((tag, index) => {
-                        return (<li key={index} className="horizontal-li">{tag}</li>)})
+                        return (<li key={index} className="horizontal-li">
+                          <div className="chip">
+                            {tag}
+                            {/* <div class="close material-icons">x</div> */}
+                          </div>
+                          </li>)})
                     )}
                 </Box>
               </Modal>

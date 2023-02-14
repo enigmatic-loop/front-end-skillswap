@@ -1,12 +1,11 @@
-.App {
-    text-align: justify;
-    font-size: medium;
-}
-
 button {
     padding: 10px;
     border: none;
     border-right: 4px solid white;
+}
+
+button:focus {
+    color: rgb(133, 133, 133) !important;
 }
 
 .small-text {
