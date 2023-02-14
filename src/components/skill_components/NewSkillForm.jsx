@@ -81,7 +81,7 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
       <Button onClick={handleOpen}>Add New Skill</Button>
       <Modal open={open} onClose={handleClose}>
         <Box id="new-skill-modal">
-          <form onSubmit={onSubmit} onKeyDown={preventEnterSubmit}>
+          <form className="form-modal" onSubmit={onSubmit} onKeyDown={preventEnterSubmit}>
             <legend className="title-center">Add a Skill</legend>
             <div>
               <p>Name: 
