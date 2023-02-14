@@ -13,6 +13,7 @@ const UserProfile = (props) => {
   const storeRecipSkillCallbackFunc = props.storeRecipSkillCallbackFunc
   const kickOut = props.kickOutCallbackFunc(loggedUser)
 
+  console.log('in userprofile', loggedUser)
   const selectedUserSkills = getSpecificUserSkills(selectedUser.id)
 
   useEffect(()=>kickOut, [])
@@ -21,9 +22,9 @@ const UserProfile = (props) => {
     <div>
       <ul>
         {/* <li>ID: {id}</li> */}
-        <li>User Name: {selectedUser.user_name}</li>
-        <li>First Name: {selectedUser.first_name}</li>
-        <li>Last Name: {selectedUser.last_name}</li>
+        <li>{selectedUser.user_name}</li>
+        {/* <li>First Name: {selectedUser.first_name}</li>
+        <li>Last Name: {selectedUser.last_name}</li> */}
         <li>City: {selectedUser.city}</li>
         <li>
           Profile Description: {selectedUser.profile_desc}

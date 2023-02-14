@@ -55,47 +55,53 @@ const UpdateProfileForm = (props) => {
 	};
 
 	return (
-		<form onSubmit={onSubmit}>
-				<legend>Update Profile</legend>
-				<div>
-					<p><b>email: </b> {loggedUser.email}</p>
-				</div>
-				<div>
-					<p><b>username: </b> {loggedUser.user_name}</p>
-				</div>
-				<div>
-						<p><b>first name: </b>
-						<input name="first name" 
-							value={updateUserFormFields.first_name} 
-							placeholder="enter your first name..."
-							onChange={onFirstNameChange}  />*</p>
-				</div>
-				<div>
-						<p><b>last name: </b>
-						<input name="last name" 
-							value={updateUserFormFields.last_name} 
-							placeholder="enter your last name..."
-							onChange={onLastNameChange} />*</p>
-				</div>
-				<div>
-						<p><b>city: </b>
-						<input name="city" 
-							value={updateUserFormFields.city} 
-							placeholder="enter your city..."
-							onChange={onCityChange} /></p>
-				</div>
-				<div>
-						<p><b>about me: </b>
-						<input name="description" 
-							value={updateUserFormFields.profile_desc} 
-							placeholder="describe yourself..."
-							onChange={onDescriptionChange} /></p>
-				</div>
-				<div>
-						<input type="submit" value="Update Profile" />
-				</div>
-				<h3>{responseMsg}</h3>
-		</form>
+		<div className="container">
+			<form className="col s8" onSubmit={onSubmit}>
+					<legend>Update Profile</legend>
+					<div>
+						<p><b>email: </b> {loggedUser.email}</p>
+					</div>
+					<div>
+						<p><b>username: </b> {loggedUser.user_name}</p>
+					</div>
+					<div>
+							<b>first name: </b>
+							<div>
+							<input name="first name" 
+								value={updateUserFormFields.first_name} 
+								placeholder="enter your first name..."
+								onChange={onFirstNameChange}  />*
+							</div>
+					</div>
+					<div>
+							<b>last name: </b>
+							<div>
+								<input name="last name" 
+									value={updateUserFormFields.last_name} 
+									placeholder="enter your last name..."
+									onChange={onLastNameChange} />*
+							</div>
+					</div>
+					<div>
+							<p><b>city: </b>
+							<input name="city" 
+								value={updateUserFormFields.city} 
+								placeholder="enter your city..."
+								onChange={onCityChange} /></p>
+					</div>
+					<div>
+							<p><b>about me: </b>
+							<input name="description" 
+								value={updateUserFormFields.profile_desc} 
+								placeholder="describe yourself..."
+								onChange={onDescriptionChange} /></p>
+					</div>
+					<div>
+							<input type="submit" value="Update Profile" />
+					</div>
+					<h3>{responseMsg}</h3>
+			</form>
+		</div>
 	)
 }
 

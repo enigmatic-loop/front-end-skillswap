@@ -1,14 +1,7 @@
 import { React, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { UserContext } from "../../App";
-
-// "id": self.skill_id,
-// "name": self.name,
-// "tags": self.tags,
-// "description": self.description,
-// "time": self.time,
-// "user_name": self.user_name,
-// "user_id": self.user_id,
+import "./Skill.scss";
 
 const Skill = ({
     id, 
@@ -120,21 +113,20 @@ const Skill = ({
   // const sendSkillObj
 
   return (
-    <div>
+    <div className="collection-item">
       <li key={id}>
         { !editSkill && (
           <div>
-            Skill: {name}
-            Time: {time} <br />
-            Description: {description} <br />
-            Tags:
-              <ul>
+            <div className="med-text">{name} - {userName}</div> 
+            <div className="small-text">Time: {time}</div>
+            <div className="small-text"><b>Description:</b> {description}</div>
+            <div className="small-text"><b>Tags:</b> <ul>
                 {tags && (
                   updatedSkillFormFields.tags.map((tag, index) => {
-                    return (<li key={index}>{tag}</li>)})
+                    return (<li key={index} className="horizontal-li">{tag}</li>)})
                 )}
               </ul>
-            Owned By: {userName}
+            </div>
           </div>)}
         { editSkill && (
           <form onSubmit={onSubmit} onKeyDown={preventEnterSubmit} >

@@ -8,6 +8,8 @@ const LandingPage = () => {
 		<div>
 			<h3>Welcome to SkillSwap</h3>
 			<h4>Please Login with Google</h4>
+			{/* google login API */}
+			<div id="signInDiv"></div>
 		</div>
 	)
 }
