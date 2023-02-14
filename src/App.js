@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect, useState, createContext } from "react";
 
@@ -42,6 +42,7 @@ function App() {
     let userObject = jwt_decode(response.credential);
     // console.log("google response: ", userObject); //delete me
     // console.log(userObject.email);
+    console.log("img", userObject.picture);
     setGoogleUser(userObject);
     // console.log("validate login: ", loggedUser); //delete me
     document.getElementById("signInDiv").hidden = true;
@@ -51,7 +52,6 @@ function App() {
   function handleSignOut(event) {
     setGoogleUser({});
     setLoggedUser({});
-    console.log("logged user on sign out: ", loggedUser); //delete me
     document.getElementById("signInDiv").hidden = false;
     timeoutNav("/", 0);
   }
@@ -361,11 +361,9 @@ function App() {
     <div className="App">
       <div className="container">
         <div className="col s12">
-          {/* google login API */}
-          <div id="signInDiv"></div>
-          {Object.keys(loggedUser).length !== 0 && (
+          {/* {Object.keys(loggedUser).length !== 0 && (
             <button onClick={(e) => handleSignOut(e)}>Sign Out</button>
-          )}
+          )} */}
           {Object.keys(loggedUser).length !== 0 && (
             <div className="row">
               <div className="col s12">
@@ -397,6 +395,8 @@ function App() {
                     kickOutCallbackFunc={kickOut}
                     loggedUserTrades={loggedUserTrades}
                     acceptDeclineTradeCallbackFunc={acceptDeclineTrade}
+                    handleSignOut={handleSignOut}
+                    timeoutNav={timeoutNav}
                   />
                 }
               />

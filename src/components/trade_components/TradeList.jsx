@@ -43,11 +43,15 @@ const TradeList = (props) => {
     }
 
   return (
-    <div>
-      <h2>Pending Trades</h2>
-      <ul>{pendingTrades}</ul>
-      <h2>Completed Trades</h2>
-      <ul>{completedTrades}</ul>
+    <div className="row">
+      <div className="col s6 push-s6">
+        <h5>Pending Swaps</h5>
+        <ul className="collection">{pendingTrades}</ul>
+      </div>
+      <div className="col s6 pull-s6">
+        <h5>Completed Swaps</h5>
+        <ul className="collection">{completedTrades}</ul>
+      </div>
     </div>
   )
 }

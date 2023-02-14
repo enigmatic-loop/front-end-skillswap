@@ -1,9 +1,12 @@
 import { React, useContext, useState } from "react";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import PropTypes from "prop-types";
 import { UserContext } from "../../App";
+import "./Skill.scss";
+import { black } from "material-ui/styles/colors";
 
 const Skill = ({
     id, 
@@ -117,26 +120,35 @@ const Skill = ({
   // useEffect(()=>validateSwap(id), []) // VALIDATE SWAP
   // const sendSkillObj
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: black
+      }
+    }
+  })
+
   return (
-    <div>
+    <div className="collection-item">
       <li key={id}>
         { !editSkill && (
           <div>
-            <Button>Skill: {name}</Button>
-            <Modal open={open} onClose={handleClose}>
-              <Box id="new-skill-modal">
-              Time: {time} <br />
-              Description: {description} <br />
-              Tags:
-                <ul>
-                  {tags && (
-                    updatedSkillFormFields.tags.map((tag, index) => {
-                      return (<li key={index}>{tag}</li>)})
-                  )}
-                </ul>
-              </Box>
-            </Modal>
-            Owned By: {userName}
+            <ThemeProvider theme={theme}>
+            <Button className="button" onClick={handleOpen}>{name} - {userName}</Button>
+              <Modal open={open} onClose={handleClose}>
+                <Box id="new-skill-modal" className="form-modal">
+                  <div className="med-text">{name} - {userName}</div>
+                  <div className="small-text">Time: {time}</div>
+                  <div className="small-text">Description: {description}</div>
+                  <div className="small-text">Tags: </div>
+                    {tags && (
+                      updatedSkillFormFields.tags.map((tag, index) => {
+                        return (<li key={index} className="horizontal-li">{tag}</li>)})
+                    )}
+                </Box>
+              </Modal>
+              </ThemeProvider>
+            {/* Owned By: {userName} */}
           </div>)}
         { editSkill && (
           <form onSubmit={onSubmit} onKeyDown={preventEnterSubmit} >

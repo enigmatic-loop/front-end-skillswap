@@ -22,18 +22,18 @@ const Trade = (props) => {
 
 	// NOTE - setting setSelectedSkill by passing get user by id and using that obj to display other user's user name and the skill name
   return (
-    <div>
-      <ul key={id}>
-        <li>Sent to: {recipSkill.user_name} for {recipSkill.name}</li> 
-        <li>Sent from: {sendSkill.user_name} offering {sendSkill.name}</li>
-        <li>{timeStamp}</li>
+    <div className="collection-item">
+      <li key={id}>
+        Sent to: {recipSkill.user_name} for {recipSkill.name} {timeStamp}<br />
+        Sent from: {sendSkill.user_name} offering {sendSkill.name}
+        {timeStamp}
         {(recipUser === loggedUser.id && recipAccept === false) && (
           <Stack direction="row" spacing={2} className="center-button">
             <Button variant="contained" color="success" onClick={()=>acceptDeclineTrade(recipUser, id)}>Accept</Button>
             <Button variant="contained" color="error" onClick={()=>acceptDeclineTrade(sendUser, id)}>Decline</Button>
           </Stack>
         )}
-      </ul>
+      </li>
     </div>
   ) 
 }
