@@ -18,7 +18,8 @@ const UserSignUpForm = (props) => {
 		user_name: "",
 		first_name: googleUser.given_name,
 		last_name: googleUser.family_name,
-		city: ""
+		city: "",
+		user_icon: googleUser.picture
 	}
 
 	const [newUserFormFields, setNewUserFormFields] = useState(INITIAL_FORM_DATA);

@@ -24,8 +24,11 @@ const Trade = (props) => {
   return (
     <div className="collection-item">
       <li key={id}>
-        Sent to: {recipSkill.user_name} for {recipSkill.name} {timeStamp}<br />
-        Sent from: {sendSkill.user_name} offering {sendSkill.name}
+        <div></div>
+        {sendSkill.user_name}'s skill: {sendSkill.name} <br />
+        for {recipSkill.user_name}'s skill: {recipSkill.name} <br />
+        {/* Sent to: {recipSkill.user_name} for {recipSkill.name} <br />
+        Sent from: {sendSkill.user_name} offering {sendSkill.name} <br /> */}
         {timeStamp}
         {(recipUser === loggedUser.id && recipAccept === false) && (
           <Stack direction="row" spacing={2} className="center-button">
