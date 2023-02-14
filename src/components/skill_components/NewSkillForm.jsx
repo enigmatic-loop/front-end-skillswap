@@ -1,9 +1,17 @@
 import { React, useState, useContext } from "react";
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
 import { UserContext } from "../../App";
+import "./NewSkillForm.scss";
+
 
 
 const NewSkillForm = ({addSkillCallbackFunc}) => {
   const loggedUser = useContext(UserContext)
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const INITIAL_FORM_DATA = {
     name: "",
@@ -69,49 +77,56 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
 	};
 
   return (
-    <form onSubmit={onSubmit} onKeyDown={preventEnterSubmit}>
-      <legend>Add a Skill</legend>
-      <div>
-        <p>Name: 
-        <input name="skill name" 
-          value={newSkillFormFields.name} 
-          placeholder="enter a skill name..." 
-          onChange={onSkillNameChange}/></p>
-      </div>
-      <div>
-        <p>Description: 
-        <input name="description" 
-          value={newSkillFormFields.description} 
-          placeholder="enter a description..." 
-          onChange={onDescriptionChange}/></p>
-      </div>
-      <div>
-        <p>Time: 
-        <input name="time" 
-          value={newSkillFormFields.time} 
-          placeholder="enter a time..." 
-          onChange={onTimeChange}/></p>
-          {/* increment by 15mins */}
-      </div>
-      <div>
-        <section>Tags: 
-        <ul>
-          {newSkillFormFields.tags.map((tag, index) => {
-            return (
-              <li key={index}>{tag}</li>
-              // {/* <button onClick={removeTag}>x</button> */}
-            )})
-          }
-        </ul>
-        <input name="tags" 
-          type="text" 
-          placeholder="enter tag(s)..." 
-          onKeyUp={addTags}/></section>
-      </div>
-      <div>
-						<input type="submit" value="Add skill" />
-				</div>
-    </form>
+    <div>
+      <Button onClick={handleOpen}>Add New Skill</Button>
+      <Modal open={open} onClose={handleClose}>
+        <Box id="new-skill-modal">
+          <form onSubmit={onSubmit} onKeyDown={preventEnterSubmit}>
+            <legend className="title-center">Add a Skill</legend>
+            <div>
+              <p>Name: 
+              <input name="skill name" 
+                value={newSkillFormFields.name} 
+                placeholder="enter a skill name..." 
+                onChange={onSkillNameChange}/></p>
+            </div>
+            <div>
+              <p>Description: 
+              <input name="description" 
+                value={newSkillFormFields.description} 
+                placeholder="enter a description..." 
+                onChange={onDescriptionChange}/></p>
+            </div>
+            <div>
+              <p>Time: 
+              <input name="time" 
+                value={newSkillFormFields.time} 
+                placeholder="enter a time..." 
+                onChange={onTimeChange}/></p>
+                {/* increment by 15mins */}
+            </div>
+            <div>
+              <section>Tags: 
+              <ul className="tags-input">
+                {newSkillFormFields.tags.map((tag, index) => {
+                  return (
+                    <li className="tag-pad" key={index}>{tag}</li>
+                    // {/* <button onClick={removeTag}>x</button> */}
+                  )})
+                }
+              </ul>
+              <input name="tags" 
+                type="text" 
+                placeholder="enter tag(s)..." 
+                onKeyUp={addTags}/></section>
+            </div>
+            <div className="submit-button">
+              <input type="submit" value="Add skill" />
+            </div>
+          </form>
+        </Box>
+      </Modal>
+    </div>
   )
 }
 

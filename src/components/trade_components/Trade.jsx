@@ -1,6 +1,8 @@
-import { React, useState, useEffect, useContext } from "react";
+import { React, useContext } from "react";
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import { UserContext } from "../../App";
-import "./Trade.css";
+import "./Trade.scss";
 
 const Trade = (props) => {
   const loggedUser = useContext(UserContext)
@@ -26,10 +28,10 @@ const Trade = (props) => {
         Sent from: {sendSkill.user_name} offering {sendSkill.name}
         {timeStamp}
         {(recipUser === loggedUser.id && recipAccept === false) && (
-          <div>
-            <button onClick={()=>acceptDeclineTrade(recipUser, id)}>Accept</button>
-            <button onClick={()=>acceptDeclineTrade(sendUser, id)}>Decline</button>
-          </div>
+          <Stack direction="row" spacing={2} className="center-button">
+            <Button variant="contained" color="success" onClick={()=>acceptDeclineTrade(recipUser, id)}>Accept</Button>
+            <Button variant="contained" color="error" onClick={()=>acceptDeclineTrade(sendUser, id)}>Decline</Button>
+          </Stack>
         )}
       </li>
     </div>
