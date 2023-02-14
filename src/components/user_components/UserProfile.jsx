@@ -22,6 +22,7 @@ const UserProfile = (props) => {
     <div>
       <ul>
         {/* <li>ID: {id}</li> */}
+        <img src={selectedUser.user_icon} alt="" className="circle"></img>
         <li>{selectedUser.user_name}</li>
         {/* <li>First Name: {selectedUser.first_name}</li>
         <li>Last Name: {selectedUser.last_name}</li> */}

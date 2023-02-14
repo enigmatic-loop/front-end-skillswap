@@ -146,6 +146,12 @@ function App() {
           googleObj.email_verified === true &&
           googleObj.email === res.data.user.email
         ) {
+          if (
+            res.data.user.user_icon === "" ||
+            res.data.user.user_icon !== googleObj.picture
+          ) {
+            res.data.user.user_icon = googleObj.picture;
+          }
           setLoggedUser(res.data.user);
           fetchLoggedUsersTradesById(res.data.user.id);
           timeoutNav("/home", 100);

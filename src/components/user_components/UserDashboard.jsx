@@ -3,7 +3,7 @@ import { UserContext } from "../../App";
 import { Link } from "react-router-dom";
 import SkillBoard from "../skill_components/SkillBoard";
 import NewSkillForm from "../skill_components/NewSkillForm";
-import "./UserDashboard.css";
+import "./UserDashboard.scss";
 import TradeList from "../trade_components/TradeList";
 
 
@@ -32,8 +32,8 @@ const UserDashboard = ({
     <div>
       <div className="row">
         <div className="col s7 push-s5">
-            <ul>
-              <h4>My Skills</h4>
+            <ul className="top-padding">
+              <h4 className="big-text">My Skills</h4>
               <SkillBoard
                 skills={userSkills}
                 deleteSkillCallbackFunc={deleteSkillCallbackFunc}
@@ -43,13 +43,13 @@ const UserDashboard = ({
             </ul>
           </div>
         <div className="col s5 pull-s7">
-          <h3>Welcome, {loggedUser.user_name}!</h3>
+          <h3 className="lorge-text">Welcome, {loggedUser.user_name}!</h3>
           <div>{loggedUser && (
                 <button onClick={(e) => handleSignOut(e)}>Sign Out</button>
                 )}
           </div>
             <ul>
-              <img src={googleUser.picture} alt="" className="circle"></img>
+              <img src={loggedUser.user_icon} alt="" className="circle"></img>
               <li>{loggedUser.user_name}</li>
               {/* <li>First Name: {loggedUser.first_name}</li> */}
               {/* <li>Last Name: {loggedUser.last_name}</li> */}

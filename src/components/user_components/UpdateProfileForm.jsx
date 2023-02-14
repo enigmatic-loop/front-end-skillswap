@@ -15,7 +15,7 @@ const UpdateProfileForm = (props) => {
 		last_name: loggedUser.last_name,
 		city: loggedUser.city,
 		profile_desc: loggedUser.profile_desc,
-		user_icon: ""
+		user_icon: loggedUser.user_icon
 	}
 
 	const [updateUserFormFields, setUpdateUserFormFields] = useState(INITIAL_FORM_DATA);
@@ -58,6 +58,7 @@ const UpdateProfileForm = (props) => {
 		<div className="container">
 			<form className="col s8" onSubmit={onSubmit}>
 					<legend className="title-center">Update Profile</legend>
+					<img src={loggedUser.user_icon} alt="" className="circle"></img>
 					<div>
 						<p><b>email: </b> {loggedUser.email}</p>
 					</div>
@@ -65,21 +66,21 @@ const UpdateProfileForm = (props) => {
 						<p><b>username: </b> {loggedUser.user_name}</p>
 					</div>
 					<div>
-							<b>first name: </b>
+							<b>* first name: </b>
 							<div>
 							<input name="first name" 
 								value={updateUserFormFields.first_name} 
 								placeholder="enter your first name..."
-								onChange={onFirstNameChange}  />*
+								onChange={onFirstNameChange}  />
 							</div>
 					</div>
 					<div>
-							<b>last name: </b>
+							<b>* last name: </b>
 							<div>
 								<input name="last name" 
 									value={updateUserFormFields.last_name} 
 									placeholder="enter your last name..."
-									onChange={onLastNameChange} />*
+									onChange={onLastNameChange} />
 							</div>
 					</div>
 					<div>
