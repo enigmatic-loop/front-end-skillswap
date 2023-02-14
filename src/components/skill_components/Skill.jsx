@@ -1,14 +1,9 @@
 import { React, useContext, useState } from "react";
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
 import PropTypes from "prop-types";
 import { UserContext } from "../../App";
-
-// "id": self.skill_id,
-// "name": self.name,
-// "tags": self.tags,
-// "description": self.description,
-// "time": self.time,
-// "user_name": self.user_name,
-// "user_id": self.user_id,
 
 const Skill = ({
     id, 
@@ -26,6 +21,9 @@ const Skill = ({
 
   const loggedUser = useContext(UserContext)
   const [editSkill, setEditSkill] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   // const [hideSwapToggle, setHideSwapToggle] = useState(false)
   const [updatedSkillFormFields, setUpdatedSkillFormFields] = useState({
     name: name,
@@ -124,16 +122,20 @@ const Skill = ({
       <li key={id}>
         { !editSkill && (
           <div>
-            Skill: {name}
-            Time: {time} <br />
-            Description: {description} <br />
-            Tags:
-              <ul>
-                {tags && (
-                  updatedSkillFormFields.tags.map((tag, index) => {
-                    return (<li key={index}>{tag}</li>)})
-                )}
-              </ul>
+            <Button>Skill: {name}</Button>
+            <Modal open={open} onClose={handleClose}>
+              <Box id="new-skill-modal">
+              Time: {time} <br />
+              Description: {description} <br />
+              Tags:
+                <ul>
+                  {tags && (
+                    updatedSkillFormFields.tags.map((tag, index) => {
+                      return (<li key={index}>{tag}</li>)})
+                  )}
+                </ul>
+              </Box>
+            </Modal>
             Owned By: {userName}
           </div>)}
         { editSkill && (
