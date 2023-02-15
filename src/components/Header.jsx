@@ -1,12 +1,8 @@
 import { React } from "react";
 import { Link } from "react-router-dom";
-// import { UserContext } from "../App";
 import "./Header.scss";
 
 const Header = () => {
-	// const loggedUser = useContext(UserContext)
-//   const handleSignOut = props.handleSignOut
-	// const googleUser = props.googleUser
 
 	return (
 		<nav className="nav-wrapper">

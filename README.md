@@ -1,70 +1,42 @@
-# Getting Started with Create React App
+# SkillSwap
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+SkillSwap is a skill trading web application where users can share knowledge with the world, in exchange for knowledge from others.
 
-## Available Scripts
+# Features
+- Users can create an account by logging in using their google email login, using the built-in Google Login API
+  - Profile information such as name, email, and user icons are pulled from the user's google login
+- SkillSwap identifies users by username, so that their real life identities are kept anonymous
+- Users may add skills to their profile, complete with descriptions, and expected time commitments for instruction
+- Users can search by username or skill name in the provided search bar and click on a result to go to a user's page
+- Users may initiate skill swaps with each other and trade knowledge!
 
-In the project directory, you can run:
+## Planned Features
+- Direct messaging upon completion of a skill swap
+- Notifications when swaps are initiated or accepted by other users
+- User following
+- Skill commenting
+- User icon uploading
+- Skill image uploading
+- Persistent user login upon refresh
+- Tag Deletion
 
-### `yarn start`
+# How to install and run
+1. Clone the repository. 
+2. Then run `yarn install` inside of the project directory, this will install all of the necessary dependencies from the node_modules folder. 
+3. After the dependencies have been installed, run `yarn start` to run the app locally.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Known Bugs
+- Skills that are currently connected to a pending or completed trade cannot be updated or deleted
+- Google Login link disappears upon sign out
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Desired Improvements:
+- When a skill swap is accepted or declined, the logged in user's Swap lists will be updated without refreshing
 
-### `yarn test`
+## Credits:
+Skillswap was designed and built by Nina Sohn and June Valentino
+Original Concept by Nina Sohn
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Tech Stack:
+- Front-end: React/JS using Material UI and SASS frameworks
+- Back-end: Python/Flask/PostgresSQL
+- Outside API: Google Login API

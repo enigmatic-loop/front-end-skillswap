@@ -27,7 +27,6 @@ const Skill = ({
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  // const [hideSwapToggle, setHideSwapToggle] = useState(false)
   const [updatedSkillFormFields, setUpdatedSkillFormFields] = useState({
     name: name,
     description: description,
@@ -84,14 +83,6 @@ const Skill = ({
     }
   }
 
-  //   const removeTag = (tagIndex) => {
-  //   const newTagList = updatedSkillFormFields.tags.filter((tag, index) => index !== tagIndex)
-  //   setUpdatedSkillFormFields({
-  //     ...updatedSkillFormFields, 
-  //     tags: newTagList
-  //   })
-  // }
-
   const preventEnterSubmit = (e) => {
     if (e.key === "Enter") {
       e.preventDefault()
@@ -102,23 +93,6 @@ const Skill = ({
 		e.preventDefault();
 		updateSkillCallbackFunc(id, updatedSkillFormFields);
 	};
-
-  // validates that user has not traded for skill, hides swap button if true
-  // const validateSwap = (currentSkillId) => {
-  //   // console.log('HI THIS IS LOGGED USER TRADES', loggedUserTrades) //delete me
-  //   // BIG NOTE FOR FIDAY 2/10 - Update logic below to check for any combination of the recip_skill id and the send_skill id in the trades
-  //   if (loggedUserTrades) {
-  //     console.log(loggedUserTrades)
-  //     for (const trade of loggedUserTrades) {
-  //       if (trade.recip_skill === currentSkillId) {
-  //         setHideSwapToggle(true)
-  //       }
-  //   }}
-  // }
-  
-
-  // useEffect(()=>validateSwap(id), []) // VALIDATE SWAP
-  // const sendSkillObj
 
   const theme = createTheme({
     palette: {
@@ -150,14 +124,12 @@ const Skill = ({
                         return (<li key={index} className="horizontal-li">
                           <div className="chip">
                             {tag}
-                            {/* <div class="close material-icons">x</div> */}
                           </div>
                           </li>)})
                     )}
                 </Box>
               </Modal>
               </ThemeProvider>
-            {/* Owned By: {userName} */}
           </div>)}
         { editSkill && (
           <form onSubmit={onSubmit} onKeyDown={preventEnterSubmit} >
@@ -182,7 +154,6 @@ const Skill = ({
               value={updatedSkillFormFields.time} 
               placeholder="enter a time..." 
               onChange={onTimeChange}/></p>
-              {/* increment by 15mins */}
           </div>
           <div>
             <section>Tags: 
@@ -190,7 +161,6 @@ const Skill = ({
               {tags && (updatedSkillFormFields.tags.map((tag, index) => {
                 return (
                   <li key={index}>{tag}</li>
-                  // {/* <button onClick={removeTag}>x</button> */}
                 )})
               )}
             </ul>
@@ -220,13 +190,6 @@ const Skill = ({
             </button>
           </div>
         )}
-        {/* {loggedUser.user_name !== userName &&( hideSwapToggle === false && 
-          (<div>
-            <button onClick={()=>storeRecipSkillCallbackFunc(id)}>
-            Swap
-            </button>
-          </div>)
-        )} */}
       </li>
     </div>
   )

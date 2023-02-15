@@ -1,7 +1,6 @@
 import { React } from "react";
 import Trade from "./Trade";
 import PropTypes from "prop-types";
-import "./TradeList.css";
 
 const TradeList = (props) => {
     const loggedUserTrades = props.loggedUserTrades

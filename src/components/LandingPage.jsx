@@ -10,7 +10,7 @@ const LandingPage = () => {
 				<h3 className="v-big-title-center">Welcome to SkillSwap</h3>
 				<h4 className="big-title-center">Please Login with Google</h4>
 				{/* google login API */}
-				<div id="signInDiv" className="center-margin"></div>
+				<div id="signInDiv"></div>
 			</div>
 		</div>
 	)

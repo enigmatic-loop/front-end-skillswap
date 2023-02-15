@@ -1,9 +1,8 @@
-import { React, useEffect, useState, useContext } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import { UserContext } from "../../App";
-import "./TradePage.css";
 
 const TradePage = (props) => {
-  // TURN INTO MODEL????????
+  // TURN INTO MODAL????????
 
   const loggedUser = useContext(UserContext)
   const loggedUserSkills= props.getSpecificUserSkillsCallbackFunc(loggedUser.id)
@@ -26,11 +25,8 @@ const TradePage = (props) => {
 	const [newTradeFormFields, setNewTradeFormFields] = useState(INITIAL_FORM_DATA);
 
   const onUserSkillClick = (skillId) => {
-    // console.log(skillId) //delete me
     setNewTradeFormFields({...newTradeFormFields, send_skill: skillId})
   }
-
-  // console.log(newTradeFormFields)
 
 	const mappedSkillNames = loggedUserSkills.map((skill, key) => {
 			return (
@@ -42,7 +38,7 @@ const TradePage = (props) => {
 			)
 		})
   
-  console.log("Logged User Skills: ", loggedUserSkills)
+    useEffect(()=>kickOut, [])
 
   return (
     <div>

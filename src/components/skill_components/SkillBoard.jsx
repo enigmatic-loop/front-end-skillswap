@@ -51,7 +51,6 @@ SkillBoard.propTypes = {
       user_id: PropTypes.number.isRequired
     })
   ),
-  // selectedUser: PropTypes.func.isRequired
 };
 
 export default SkillBoard;

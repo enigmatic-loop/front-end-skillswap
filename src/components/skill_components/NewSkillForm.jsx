@@ -23,8 +23,6 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
   }
   const [newSkillFormFields, setNewSkillFormFields] = useState(INITIAL_FORM_DATA);
 
-  // const [tagsState, setTagsState] = useState([])
-
   const onSkillNameChange = (e) => {
 		setNewSkillFormFields({
 			...newSkillFormFields,
@@ -55,14 +53,6 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
       e.target.value = ""
     };
     }
-
-  // const removeTag = (tagIndex) => {
-  //   const newTagList = newSkillFormFields.tags.filter((tag, index) => index !== tagIndex)
-  //   setNewSkillFormFields({
-  //     ...newSkillFormFields, 
-  //     tags: newTagList
-  //   })
-  // }
 
   const preventEnterSubmit = (e) => {
     if (e.key === "Enter") {
@@ -103,7 +93,6 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
                 value={newSkillFormFields.time} 
                 placeholder="enter a time..." 
                 onChange={onTimeChange}/></p>
-                {/* increment by 15mins */}
             </div>
             <div>
               <section>Tags: 
@@ -111,7 +100,6 @@ const NewSkillForm = ({addSkillCallbackFunc}) => {
                 {newSkillFormFields.tags.map((tag, index) => {
                   return (
                     <li className="tag-pad" key={index}>{tag}</li>
-                    // {/* <button onClick={removeTag}>x</button> */}
                   )})
                 }
               </ul>

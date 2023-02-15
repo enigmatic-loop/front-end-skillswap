@@ -38,13 +38,8 @@ function App() {
   const [googleUser, setGoogleUser] = useState({});
 
   function handleGoogleCallbackResponse(response) {
-    // console.log("JWT encoded token: " + response.credential); //delete me
     let userObject = jwt_decode(response.credential);
-    // console.log("google response: ", userObject); //delete me
-    // console.log(userObject.email);
-    console.log("img", userObject.picture);
     setGoogleUser(userObject);
-    // console.log("validate login: ", loggedUser); //delete me
     document.getElementById("signInDiv").hidden = true;
     validateLogin(userObject);
   }
@@ -98,9 +93,7 @@ function App() {
         setSelectedUser(res.data.user);
         return res.data.user;
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const fetchAllUserNames = () => {
@@ -112,9 +105,7 @@ function App() {
         });
         setUserNames(userNameResList);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   useEffect(fetchAllUserNames, []);
@@ -132,9 +123,7 @@ function App() {
         timeoutNav("/home", 500);
       })
       .catch((error) => {
-        // console.log("axios .catch error: ", error.request.response); //delete me
         setResponseMsg(JSON.parse(error.request.response).details);
-        // console.log("details:", JSON.parse(error.request.response).details); //delete me
       });
   };
 
@@ -183,7 +172,6 @@ function App() {
           timeoutNav("/home", 500);
         })
         .catch((error) => {
-          console.log(error); //delete me
           setResponseMsg(JSON.parse(error.request.response).details);
         });
     }
@@ -198,12 +186,9 @@ function App() {
         const skillResList = res.data.map((skill) => {
           return skill;
         });
-        // console.log(userNameResList); //delete me
         setAllSkills(skillResList);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   useEffect(fetchAllSkills, []);
@@ -215,9 +200,7 @@ function App() {
         setSelectedSkill(res.data.skill);
         fetchOneUserByUserName(res.data.skill.user_name);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const getSpecificUserSkills = (userId) => {
@@ -234,7 +217,6 @@ function App() {
     axios
       .post(`${URL}/skills`, newSkillInfo)
       .then((res) => {
-        // console.log("axios response: ", res); //delete me
         const newSkills = [...allSkills];
         const newSkillJSON = {
           ...newSkillInfo,
@@ -243,9 +225,7 @@ function App() {
         setAllSkills(newSkills);
         fetchAllSkills();
       })
-      .catch((error) => {
-        console.log("axios .catch error: ", error);
-      });
+      .catch((error) => {});
   };
 
   const deleteSkill = (skillId) => {
@@ -264,9 +244,7 @@ function App() {
         setAllSkills(newSkillList);
         alert(`${deletedSkillName} skill succesfully deleted`);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 
   const updateSkill = (skillId, updatedSkillInfo) => {
@@ -292,9 +270,7 @@ function App() {
         setAllSkills(newSkillList);
         fetchAllSkills();
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 
   // TRADE FUNCTIONS
@@ -308,39 +284,30 @@ function App() {
     axios
       .post(`${URL}/trades`, newTradeObj)
       .then((res) => {
-        console.log("axios response: ", res); // delete me
         setLoggedUserTrades([...loggedUserTrades, newTradeObj]);
-        alert("Skills succesfully swapped!");
+        alert("Skill swap sent!");
         timeoutNav("userprofile", 100);
       })
       .catch((error) => {
         setResponseMsg(JSON.parse(error.request.response).details);
-        console.log("axios .catch error: ", error); // delete me
       });
   };
 
   const fetchLoggedUsersTradesById = (userId) => {
-    console.log("fetchLoggedUsersTradesById");
-
     axios
       .get(`${URL}/trades/${userId}`)
       .then((res) => {
-        // console.log("RESPONSE,,,,,,", res); //delete me
         const tradesResList = res.data.map((trade) => {
           return trade;
         });
-        // console.log("THIS SHOULD HAVE USERS TRADES", tradesResList); //delete me
         setLoggedUserTrades(tradesResList);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const acceptDeclineTrade = (userId, tradeId) => {
     // if user accepts then we send their ID through the patch toggle
     // if user declines then we send other user ID through patch toggle
-    console.log("URL", `${URL}/trades/${tradeId}/${userId}/toggle_accept`);
     axios
       .patch(`${URL}/trades/${tradeId}/${userId}/toggle_accept`)
       .then((res) => {
@@ -358,9 +325,7 @@ function App() {
 
         setLoggedUserTrades(newLoggedUserTrades);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   return (
@@ -393,7 +358,6 @@ function App() {
                 path="/home"
                 element={
                   <UserDashboard
-                    googleUser={googleUser}
                     getSpecificUserSkills={getSpecificUserSkills}
                     addSkillCallbackFunc={addSkill}
                     updateSkillCallbackFunc={updateSkill}

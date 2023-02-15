@@ -1,6 +1,5 @@
 import { React, useState, useEffect, useContext } from "react";
 import { UserContext } from "../../App";
-import "./UpdateProfileForm.css";
 
 const UpdateProfileForm = (props) => {
 	const loggedUser = useContext(UserContext)
@@ -50,7 +49,6 @@ const UpdateProfileForm = (props) => {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		// console.log('SUBMITTING THIS RIGHT HERE: ',updateUserFormFields) //delete me
 		updateUser(updateUserFormFields)
 	};
 

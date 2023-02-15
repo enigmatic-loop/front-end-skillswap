@@ -9,15 +9,6 @@ import CloseIcon from "@material-ui/icons/Close";
 
 const SearchBar = ({ placeholder, userNames, fetchOneUserByUserName, timeoutNav, allSkills }) => {
   const [searchToggle, setSearchToggle] = useState("")
-  
-  // Search by User
-  // const [filterUsers, setFilterUsers] = useState([]);
-  // const [userEntered, setUserEntered] = useState("");
-
-  // // Search by Skill
-  // const [filterSkills, setFilterSkills] = useState([]);
-  // const [skillEntered, setSkillEntered] = useState("");
-
   const [filterResults, setFilterResults] = useState([]);
   const [resultEntered, setResultEntered] = useState("");
 
@@ -40,26 +31,10 @@ const SearchBar = ({ placeholder, userNames, fetchOneUserByUserName, timeoutNav,
     setAnchorEl(null);
   };
 
-  // const handleSearch = (e) => {
-  //   const searchValue = e.target.value;
-  //   setUserEntered(searchValue);
-  //   const newSearch = userNames.filter((value) => {
-  //     // console.log(value);
-  //     return value.toLowerCase().includes(searchValue.toLowerCase());
-  //   });
-
-  //   if (searchValue === "") {
-  //     setFilterUsers([]);
-  //   } else {
-  //     setFilterUsers(newSearch);
-  //   }
-  // };
-
   const handleSearch = (e) => {
     const searchValue = e.target.value;
     setResultEntered(searchValue);
     const newSearch = searchBy.filter((value) => {
-      // console.log(value);
       return value.toLowerCase().includes(searchValue.toLowerCase());
     });
 
@@ -72,48 +47,11 @@ const SearchBar = ({ placeholder, userNames, fetchOneUserByUserName, timeoutNav,
 
   const clearInput = () => {
     setFilterResults([]);
-    // useRef hook?
     setResultEntered("");
   };
 
   return (
     <div className="search">
-      {/* <div>
-        <Button
-          id="basic-button"
-          aria-controls={open ? 'basic-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClick}
-        >
-          Search By
-        </Button>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-        >
-          <MenuItem onClick={handleClose}>Skills</MenuItem>
-          <MenuItem onClick={handleClose}>Username</MenuItem>
-        </Menu>
-      </div> */}
-      
-      {/* <!-- Dropdown Trigger -->
-      <button className='dropdown-trigger btn' href='#' data-target='dropdown1'>Drop Me!</button>
-
-      {/* <!-- Dropdown Structure --> */}
-      {/* <ul id='dropdown1' class='dropdown-content'>
-        <li><a href="#!">Skill</a></li>
-        <li><a href="#!">Username</a></li>
-        <li class="divider" tabindex="-1"></li>
-        <li><a href="#!">three</a></li>
-        <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
-        <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
-      </ul> */}
       <div className="row">
         <div className="col s2 pull-s0">
           <div className="top-padding-3">

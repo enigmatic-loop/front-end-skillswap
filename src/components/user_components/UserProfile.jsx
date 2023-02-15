@@ -1,6 +1,4 @@
 import { React, useContext, useEffect } from "react";
-import "./UserProfile.css";
-import PropTypes from "prop-types";
 import { UserContext } from "../../App";
 import SkillBoard from "../skill_components/SkillBoard";
 
@@ -13,7 +11,6 @@ const UserProfile = (props) => {
   const storeRecipSkillCallbackFunc = props.storeRecipSkillCallbackFunc
   const kickOut = props.kickOutCallbackFunc(loggedUser)
 
-  console.log('in userprofile', loggedUser)
   const selectedUserSkills = getSpecificUserSkills(selectedUser.id)
 
   useEffect(()=>kickOut, [])
@@ -21,11 +18,8 @@ const UserProfile = (props) => {
   return (
     <div>
       <ul>
-        {/* <li>ID: {id}</li> */}
         <img src={selectedUser.user_icon} alt="" className="circle"></img>
         <li>{selectedUser.user_name}</li>
-        {/* <li>First Name: {selectedUser.first_name}</li>
-        <li>Last Name: {selectedUser.last_name}</li> */}
         <li>City: {selectedUser.city}</li>
         <li>
           Profile Description: {selectedUser.profile_desc}
