@@ -33,7 +33,7 @@ SkillSwap is a skill trading web application where users can share knowledge wit
 - When a skill swap is accepted or declined, the logged in user's Swap lists will be updated without refreshing
 
 ## Credits:
-Skillswap was designed and built by Nina Sohn and June Valentino
+Skillswap was designed and built by Nina Sohn - nina.sohn@gmail.com and June Valentino - vintydesign@gmail.com
 Original Concept by Nina Sohn
 
 ## Tech Stack:

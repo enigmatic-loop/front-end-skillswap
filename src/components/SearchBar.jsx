@@ -103,19 +103,22 @@ const SearchBar = ({ placeholder, userNames, fetchOneUserByUserName, timeoutNav,
       {filterResults.length > 0 && (
         <div className="results">
           {filterResults.slice(0, 10).map((value, key) => {
-            if (searchToggle === 'skill') {
-            let value = ""
-            for (const skill of allSkills) {
-              if (value === skill.name) {
-                value = skill.user_name
-              }
-            }
-            }
             return (
               <div
                 key={key}
                 onClick={() => {
+                  if (searchToggle === 'skill') {
+                    let nameValue = ""
+                    console.log('value', value)
+                    for (const skill of allSkills) {
+                      if (value === skill.name) {
+                        nameValue = skill.user_name
+                      }
+                    }
+                    fetchOneUserByUserName(nameValue);
+                    } else {
                   fetchOneUserByUserName(value);
+                  }
                   timeoutNav("/userprofile", 500)
                 }}>
                 {" "}{value}{" "}
