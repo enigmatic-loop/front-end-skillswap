@@ -214,18 +214,22 @@ function App() {
   };
 
   const addSkill = (newSkillInfo) => {
-    axios
-      .post(`${URL}/skills`, newSkillInfo)
-      .then((res) => {
-        const newSkills = [...allSkills];
-        const newSkillJSON = {
-          ...newSkillInfo,
-        };
-        newSkills.push(newSkillJSON);
-        setAllSkills(newSkills);
-        fetchAllSkills();
-      })
-      .catch((error) => {});
+    if (newSkillInfo.name && newSkillInfo.description && newSkillInfo.time) {
+      axios
+        .post(`${URL}/skills`, newSkillInfo)
+        .then((res) => {
+          const newSkills = [...allSkills];
+          const newSkillJSON = {
+            ...newSkillInfo,
+          };
+          newSkills.push(newSkillJSON);
+          setAllSkills(newSkills);
+          fetchAllSkills();
+        })
+        .catch((error) => {});
+    } else {
+      alert("Please complete all required fields");
+    }
   };
 
   const deleteSkill = (skillId) => {
@@ -248,29 +252,37 @@ function App() {
   };
 
   const updateSkill = (skillId, updatedSkillInfo) => {
-    axios
-      .patch(`${URL}/skills/${skillId}/update_skill`, updatedSkillInfo)
-      .then(() => {
-        const newSkillList = [];
-        for (const skill of allSkills) {
-          if (skill.id !== skillId) {
-            newSkillList.push(skill);
-          } else {
-            const updatedSkill = {
-              name: updatedSkillInfo.name,
-              description: updatedSkillInfo.description,
-              time: updatedSkillInfo.time,
-              tags: updatedSkillInfo.tags,
-              user_name: skill.user_name,
-              user_id: skill.user_id,
-            };
-            newSkillList.push(updatedSkill);
+    if (
+      updatedSkillInfo.name &&
+      updatedSkillInfo.description &&
+      updatedSkillInfo.time
+    ) {
+      axios
+        .patch(`${URL}/skills/${skillId}/update_skill`, updatedSkillInfo)
+        .then(() => {
+          const newSkillList = [];
+          for (const skill of allSkills) {
+            if (skill.id !== skillId) {
+              newSkillList.push(skill);
+            } else {
+              const updatedSkill = {
+                name: updatedSkillInfo.name,
+                description: updatedSkillInfo.description,
+                time: updatedSkillInfo.time,
+                tags: updatedSkillInfo.tags,
+                user_name: skill.user_name,
+                user_id: skill.user_id,
+              };
+              newSkillList.push(updatedSkill);
+            }
           }
-        }
-        setAllSkills(newSkillList);
-        fetchAllSkills();
-      })
-      .catch((err) => {});
+          setAllSkills(newSkillList);
+          fetchAllSkills();
+        })
+        .catch((err) => {});
+    } else {
+      alert("Please complete all required fields");
+    }
   };
 
   // TRADE FUNCTIONS
@@ -289,6 +301,8 @@ function App() {
         timeoutNav("userprofile", 100);
       })
       .catch((error) => {
+        console.log("NEW TRADE", newTradeObj);
+        console.log("SELECTED SKILL", selectedSkill);
         setResponseMsg(JSON.parse(error.request.response).details);
       });
   };
